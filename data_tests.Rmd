@@ -1,0 +1,113 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+library(readr)
+library(janitor)
+library(readxl)
+```
+
+
+```{r}
+decath <- read_rds("raw_data/dirty_data_project_raw_data/decathlon.rds")
+```
+
+```{r}
+decath_clean_test <- decath %>% 
+clean_names() 
+
+decath_clean_test_rownames <- decath_clean_test %>% 
+  rownames_to_column() %>% 
+  rename("competitor" = "rowname")
+
+decath_pivot_test <- decath_clean_test_rownames%>% 
+  pivot_longer(cols = (2:11),
+               names_to = "event",
+               values_to = "score")
+
+longest_jump <- decath_pivot_test %>% 
+  filter(event == "long_jump") %>% 
+  slice_max(score, n= 10)
+```
+
+```{r}
+    cake <- read_csv("raw_data/dirty_data_project_raw_data/cake/cake-ingredients-1961.csv")
+cake_codes <- read_csv("raw_data/dirty_data_project_raw_data/cake/cake_ingredient_code.csv")
+```
+
+```{r}
+cake
+view(cake)
+summary(cake)
+```
+
+```{r}
+cake_tidy_test <- cake %>% 
+  pivot_longer(cols = ("AE":"ZH"),
+               names_to = "code",
+               values_to = "quantity")
+
+cake_drop_na_test <- cake_tidy_test %>% 
+  drop_na(quantity)
+
+cake_join_test <- cake_drop_na_test %>% 
+  left_join(cake_codes, by = "code")
+
+clean_cake_join_test <- cake_join_test %>% 
+  select(Cake, ingredient, quantity, measure) %>% 
+  clean_names()
+
+most_cocoa_test <- clean_cake_join_test %>% 
+  filter(ingredient == "Cocoa") %>% 
+  slice_max(quantity)
+
+sponge_cake_test <- clean_cake_join_test %>% 
+  filter(cake == "Sponge",
+         measure == "cup") %>% 
+  summarise(total_quantity = sum(quantity))
+```
+
+
+```{r}
+seabirds <- read_xls("raw_data/dirty_data_project_raw_data/seabirds.xls", 2)
+```
+
+```{r}
+shipping_info <- read_xls("raw_data/dirty_data_project_raw_data/seabirds.xls", 1)
+names(shipping_info)
+
+glimpse(shipping_info)
+
+skimr::skim(shipping_info)
+shipping_info
+```
+
+```{r}
+seabird_select <- seabirds %>% 
+  select(RECORD, `RECORD ID`,
+         `Species common name (taxon [AGE / SEX / PLUMAGE PHASE])`,
+         COUNT, `Species abbreviation`, 
+         ) %>% 
+  clean_names()
+```
+
+
+```{r}
+shipping_select <- shipping_info %>% 
+  select(RECORD, `RECORD ID`, DATE, LAT, LONG) %>% 
+  clean_names()
+```
+
+```{r}
+test_join <- seabird_select %>% 
+  left_join(shipping_select, by = "record_id")
+
+test_join_with_date <- test_join %>% 
+  mutate(date = as.Date(date))
+```
+
+
+

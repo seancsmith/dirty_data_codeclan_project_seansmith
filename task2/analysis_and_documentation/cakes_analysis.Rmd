@@ -1,0 +1,19 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+library(readr)
+library(janitor)
+library(skimr)
+library(stringr)
+```
+
+```{r}
+cakes <- read_csv("data/clean_data/cakes_clean.csv")
+```
+
+
+
