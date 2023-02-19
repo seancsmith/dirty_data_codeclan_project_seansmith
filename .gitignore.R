@@ -114,3 +114,8 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
