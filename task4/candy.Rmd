@@ -8,11 +8,148 @@ library(tidyverse)
 library(janitor)
 library(here)
 library(readxl)
+library(lubridate)
+library(stringr)
 ```
 
 ```{r}
 bb_candy_2015 <- read_xlsx("data/raw_data/boing-boing-candy-2015.xlsx")
 bb_candy_2016 <- read_xlsx("data/raw_data/boing-boing-candy-2016.xlsx")
 bb_candy_2017 <- read_xlsx("data/raw_data/boing-boing-candy-2017.xlsx")
+```
+
+```{r}
+dim(bb_candy_2015)
+
+pivot_2015_test <- bb_candy_2015 %>% 
+  pivot_longer(cols = ("[Butterfinger]":"[York Peppermint Patties]"),
+               names_to = "sweets",
+               values_to = "enjoyment")
+
+pivot_select_2015_test <- pivot_2015_test %>% 
+  select(Timestamp, `How old are you?`, `Are you going actually going trick or treating yourself?`, sweets, enjoyment)
+dim(pivot_2015_test)
+```
+```{r}
+pivot_select_group_2015 <- pivot_select_2015_test %>% 
+  group_by(sweets) %>% 
+  summarise(n())
+```
+
+
+Clean up bb_candy_2015
+```{r}
+bb_candy_2015_age_str_remove <- bb_candy_2015 %>% 
+  mutate(`How old are you?` = str_remove(`How old are you?`, "\\..+"))
+
+bb_candy_2015_age_numeric <- bb_candy_2015_age_str_remove %>% 
+  mutate(`How old are you?` = as.numeric(`How old are you?`)) %>% 
+  rename("age" = `How old are you?`,
+         "trick_or_treating_alone" = `Are you going actually going trick or treating yourself?`)
+
+bb_candy_2015_clean_names <- bb_candy_2015_age_numeric %>% 
+  clean_names()
+
+bb_candy_2015_relocate_netto <- bb_candy_2015_clean_names %>% 
+  relocate(necco_wafers, .after = pixy_stix)
+
+bb_candy_2015_select <- bb_candy_2015_relocate_netto %>% 
+  select(timestamp, age, trick_or_treating_alone, butterfinger:york_peppermint_patties)
+
+names(bb_candy_2015_select)
+
+bb_candy_2015_order_cols <- bb_candy_2015_select %>% 
+  select(timestamp, age, trick_or_treating_alone, sort(colnames(.)))
+
+bb_candy_2015_date <- bb_candy_2015_order_cols %>% 
+  mutate(timestamp = as.Date(timestamp)) %>% 
+  rename("date" = "timestamp")
+```
+
+
+Clean up bb_candy_2016
+```{r}
+# Change column headers
+
+bb_candy_2016_new_headers <- bb_candy_2016 %>% 
+  rename("trick_or_treating_alone?" = `Are you going actually going trick or treating yourself?`,
+         "gender" = `Your gender:`,
+         "age" = `How old are you?`,
+         "country" = `Which country do you live in?`,
+         "state" = `Which state, province, county do you live in?`
+  )
+
+# Change age to as.numeric and remove decimal
+bb_candy_2016_age_str_remove <- bb_candy_2016_new_headers %>% 
+  mutate(age = str_remove(age, "\\..+")) %>% 
+  mutate(age = as.numeric(age))
+
+# Clean the column headers
+
+bb_candy_2016_clean_names <- bb_candy_2016_age_str_remove %>% 
+  clean_names()
+
+bb_candy_2016_select <- bb_candy_2016_clean_names %>% 
+  select(timestamp, trick_or_treating_alone, gender, age, country, state, x100_grand_bar:york_peppermint_patties)
+
+bb_candy_2016_order_cols <- bb_candy_2016_select %>% 
+  select(timestamp, trick_or_treating_alone, gender, age, country, state, sort(colnames(.)), -person_of_interest_season_3_dvd_box_set_not_including_disc_4_with_hilarious_outtakes)
+
+bb_candy_2016_date <- bb_candy_2016_order_cols %>% 
+  mutate(timestamp = as.Date(timestamp)) %>% 
+  rename("date" = "timestamp")
+```
+
+```{r}
+bind_rows_test  <- bind_rows(bb_candy_2015_date, bb_candy_2016_date)
+```
+
+```{r}
+bb_candy_2016_string_to_lower <- bb_candy_2016_date %>% 
+  mutate(country = str_to_lower(country))
+
+bb_candy_2016_str_replace_test <- bb_candy_2016_string_to_lower %>% 
+  mutate(country = str_replace_all(country, "us", "usa"),
+         country = str_replace_all(country, "usaa", "usa"),
+         country = str_replace_all(country, "united states of america", "usa"),
+         country = str_replace_all(country, "merica", "usa"),
+         country = str_replace_all(country, "usa!", "usa"),
+         country = str_replace_all(country, "u.s.", "usa"),
+         country = str_replace_all(country, "usa usa usa", "usa"),
+         country = str_replace_all(country, "united sates", "usa"),
+         country = str_replace_all(country, "units states", "usa"),
+         country = str_replace_all(country, "usa usa", "usa"),
+         country = str_replace_all(country, "the yoo ess of aaayyyyyy", "usa"),
+         country = str_replace_all(country, "murica", "usa"),
+         country = str_replace_all(country, "the best one - usa", "usa"),
+         country = str_replace_all(country, "trumpistan", "usa"),
+         country = str_replace_all(country, "units state", "usa"),
+         country = str_replace_all(country, "united states", "usa"),
+         country = str_replace_all(country, "united state", "usa"),
+         country = str_replace_all(country, "united stetes", "usa"),
+         country = str_replace_all(country, "usa!!!!!", "usa"),
+         country = str_replace_all(country, "usaa.", "usa"),
+         country = str_replace_all(country, "usasa", "usa"),
+         country = str_replace_all(country, "usa \\((i think but it's an election year so who can really tell\\))", "usa"),
+         country = str_replace_all(country, "cascadia", "usa"),
+         country = str_replace_all(country, "NANA.NA", "usa"),
+         country = str_replace_all(country, "the republic of cascadia", "usa"),
+         country = str_replace_all(country, "[0-9]", "NA"),
+         country = str_replace_all(country, "united kingdom", "uk"),
+         country = str_replace_all(country, "united kindon", "uk"),
+         country = str_replace_all(country, "united kingdon", "uk"),
+         country = str_replace_all(country, "united kindom", "uk"),
+         country = str_replace_all(country, "england", "uk")
+         )
+
+
+bb_candy_2016_country_count_test <- bb_candy_2016_str_replace_test %>%
+  distinct(country) %>% 
+  summarise(n())
+bb_candy_2016_country_count_test
+
+distinct_country_remove <- bb_candy_2016_str_replace_test %>% 
+  distinct(country)
+view(distinct_country_remove)
 ```
 

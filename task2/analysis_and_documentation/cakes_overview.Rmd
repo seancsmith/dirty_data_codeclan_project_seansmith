@@ -83,6 +83,7 @@ cakes <- read_csv(here("data/clean_data/cakes_clean.csv"))
 most_cocoa_cake <- cakes %>%
   filter(ingredient == "Cocoa") %>%
   slice_max(quantity)
+most_cocoa_cake
 ```
 - The `One Bowl Chocolate` cake has the most `Cocoa` in it by far.
 
@@ -93,6 +94,7 @@ sponge_cake_test <- cakes %>%
   filter(cake == "Sponge",
          measure == "cup") %>% 
   summarise(total_quantity = sum(quantity))
+sponge_cake_test
 ```
 - Filter by _Sponge_ and _cup_ and then find the total of those values, which gives us 3.5 cups.
 
@@ -103,6 +105,7 @@ n_in_teaspoons <- cakes %>%
   filter(measure == "teaspoon") %>% 
   distinct(ingredient) %>% 
   summarise(n_ingredients_teaspoon = n())
+n_in_teaspoons
 ```
 - Filter by _teaspoon_ and use the **distinct()** function to find all of the individual ingredients that are measured in teaspoons.
 
@@ -114,16 +117,18 @@ most_unique_ingred <- cakes %>%
   summarise(total_no_ingred = n()) %>% 
   arrange(desc(total_no_ingred)) %>% 
   head(2)
+most_unique_ingred
 ```
 - On finding the sum of the ingredients for each cake I discovered that both the `Babas au Rhum` and `One Bowl Chocolate` both contained 11 ingredients. Which was the highest number of ingredients of all of the cakes.
 
 
 5. Which ingredients are used only once?
 ```{r}
-ingedients_once <- cakes %>% 
+ingredients_once <- cakes %>% 
   group_by(ingredient) %>% 
   mutate(times_used = n()) %>% 
   filter(times_used == 1) %>% 
   select(ingredient, times_used)
+ingredients_once
 ```
 - **Grouped by** ingredients and then counted how many times each one occurs. I then filtered to show all of the ingredients which occured only once.
