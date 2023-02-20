@@ -9,10 +9,12 @@ library(readr)
 library(janitor)
 library(skimr)
 library(stringr)
+library(here)
 ```
 
 ```{r}
-cakes <- read_csv("data/clean_data/cakes_clean.csv")
+here()
+cakes <- read_csv(here("data/clean_data/cakes_clean.csv"))
 ```
 
 1.2.2 Analysis questions

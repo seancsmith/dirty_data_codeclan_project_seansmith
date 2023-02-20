@@ -1754,35 +1754,40 @@ display: none;
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeSh0aWR5dmVyc2UpXG5saWJyYXJ5KHJlYWRyKVxubGlicmFyeShqYW5pdG9yKVxubGlicmFyeShza2ltcilcbmxpYnJhcnkoc3RyaW5ncilcbmBgYCJ9 -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeSh0aWR5dmVyc2UpXG5saWJyYXJ5KHJlYWRyKVxubGlicmFyeShqYW5pdG9yKVxubGlicmFyeShza2ltcilcbmxpYnJhcnkoc3RyaW5ncilcbmxpYnJhcnkoaGVyZSlcbmBgYCJ9 -->
 <pre class="r"><code>library(tidyverse)
 library(readr)
 library(janitor)
 library(skimr)
-library(stringr)</code></pre>
+library(stringr)
+library(here)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY2FrZXMgPC0gcmVhZF9jc3YoXCJkYXRhL2NsZWFuX2RhdGEvY2FrZXNfY2xlYW4uY3N2XCIpXG5gYGAifQ== -->
-<pre class="r"><code>cakes &lt;- read_csv(&quot;data/clean_data/cakes_clean.csv&quot;)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY2FrZXMgPC0gcmVhZF9jc3YoaGVyZShcImRhdGEvY2xlYW5fZGF0YS9jYWtlc19jbGVhbi5jc3ZcIikpXG5cbmBgYCJ9 -->
+<pre class="r"><code>cakes &lt;- read_csv(here(&quot;data/clean_data/cakes_clean.csv&quot;))
+</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiRXJyb3I6ICdkYXRhL2NsZWFuX2RhdGEvY2FrZXNfY2xlYW4uY3N2JyBkb2VzIG5vdCBleGlzdCBpbiBjdXJyZW50IHdvcmtpbmcgZGlyZWN0b3J5ICgnL1VzZXJzL3NlYW5jc21pdGgvRG9jdW1lbnRzL0NvZGVDbGFuL2RpcnR5X2RhdGFfY29kZWNsYW5fcHJvamVjdF9zZWFuc21pdGgvdGFzazIvYW5hbHlzaXNfYW5kX2RvY3VtZW50YXRpb24nKS5cbiJ9 -->
-<pre><code>Error: &#39;data/clean_data/cakes_clean.csv&#39; does not exist in current working directory (&#39;/Users/seancsmith/Documents/CodeClan/dirty_data_codeclan_project_seansmith/task2/analysis_and_documentation&#39;).</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiUm93czogMTU2IENvbHVtbnM6IDTilIDilIAgQ29sdW1uIHNwZWNpZmljYXRpb24g4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSAXG5EZWxpbWl0ZXI6IFwiLFwiXG5jaHIgKDMpOiBjYWtlLCBpbmdyZWRpZW50LCBtZWFzdXJlXG5kYmwgKDEpOiBxdWFudGl0eVxu4oS5IFVzZSBgc3BlYygpYCB0byByZXRyaWV2ZSB0aGUgZnVsbCBjb2x1bW4gc3BlY2lmaWNhdGlvbiBmb3IgdGhpcyBkYXRhLlxu4oS5IFNwZWNpZnkgdGhlIGNvbHVtbiB0eXBlcyBvciBzZXQgYHNob3dfY29sX3R5cGVzID0gRkFMU0VgIHRvIHF1aWV0IHRoaXMgbWVzc2FnZS5cbiJ9 -->
+<pre><code>Rows: 156 Columns: 4── Column specification ───────────────────────────────────────────────────────────
+Delimiter: &quot;,&quot;
+chr (3): cake, ingredient, measure
+dbl (1): quantity
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <p>1.2.2 Analysis questions 1. Which cake has the most cocoa in it?</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInNwZWNfdGJsX2RmIiwidGJsX2RmIiwidGJsIiwiZGF0YS5mcmFtZSJdLCJucm93IjoxLCJuY29sIjo0LCJzdW1tYXJ5Ijp7IkEgdGliYmxlIjpbIjEgw5cgNCJdfX0sInJkZiI6Ikg0c0lBQUFBQUFBQUExMVJ3VTdETUF4MXU0U3hTaHNJZm1BSHJ1MWxGNDZJSWE1SUNLUmR2VFpzMGJKa0pLa0dONzU4dyswU05HSXBpZjNzWitjbHIwK0xXYkVvQUdBQUxNOWh3TWtGL3Y3MlhONERJUlJrd0dEVW5WOVVkRXNPbzNWOWxyaDUwV0w2YVBacU9sK2IyaWowSXFuZ2M4SXhBUXVQU3lYY3poaE4wYVRMUE54QnNIK1R1Y2F0Y0lIT0FzaHEzSWpZU3VxVkZZMFUyZ2RrdUJYb1doc0xMajliMUY3Njc2VHp5SnA5RmJ1UGFlVS90QjNKMGl2VUNwMUxGVFRvc2Zxd3hLZm9rRkNHWnVlbDBVVEt1MWZqQ1RtekNYRFY2dTRtVFZtdlc3MHBaOTJBUG4yeWNmQ3pNNStkUnViSDBJcUhWaGRDcjZTTzRybkNwVkFobUpEaVhuQzFzL0x2dVFwQ1hlV054MWhYMEVkR3BOY0doMS9MR0dpMkxBSUFBQT09In0= -->
-<div data-pagedtable="false">
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":["cake"],"name":[1],"type":["chr"],"align":["left"]},{"label":["ingredient"],"name":[2],"type":["chr"],"align":["left"]},{"label":["measure"],"name":[3],"type":["chr"],"align":["left"]},{"label":["quantity"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"One Bowl Chocolate","2":"Cocoa","3":"tablespoon","4":"10"}],"options":{"columns":{"min":{},"max":[10],"total":[4]},"rows":{"min":[10],"max":[10],"total":[1]},"pages":{}}}
-  </script>
-</div>
-<!-- rnb-frame-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubW9zdF9jb2NvYV9jYWtlIDwtIGNha2VzICU+JSBcbiAgZmlsdGVyKGluZ3JlZGllbnQgPT0gXCJDb2NvYVwiKSAlPiUgXG4gIHNsaWNlX21heChxdWFudGl0eSlcbmBgYCJ9 -->
+<pre class="r"><code>most_cocoa_cake &lt;- cakes %&gt;% 
+  filter(ingredient == &quot;Cocoa&quot;) %&gt;% 
+  slice_max(quantity)</code></pre>
+<!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <ol start="2" style="list-style-type: decimal">
@@ -1791,13 +1796,12 @@ total?</li>
 </ol>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibnJvdyI6MSwibmNvbCI6MSwic3VtbWFyeSI6eyJBIHRpYmJsZSI6WyIxIMOXIDEiXX19LCJyZGYiOiJINHNJQUFBQUFBQUFBMTFRelFyQ01Bek91bFZ4K0FjK3gzYlFpMGNQNGdPSXdtNVM1OVJoYmVmV29kNTg4bWs2V3BndHBFays4aVg1c2wwbml6QUpBY0NIZ0JEd0tZWkE5N3ROdEFSRU1QRWdnSUgyTHl5YXRRREFXUHZWRU16N0s2U0MzYk1LZzJrSEhDdXBHRDg4YWlaVXJ0NE9aVkRLWjJ4cEl6VHl3ZStMeisyZGNsYTV2Y01UVXl3K2w4akhySEVvZlZtb1hBb2tFYjA5ZGNoZTZRQ1RXdWhOVGxGNnJjVXRtdXNCUmpXWTdUeGpuVmlQSkYvVGlwcFd2VXhjY3BIWjNUazdadHplQXhXM2d1T2l6SVd5U2hDdDR2WlVGa2tsdDBpckRab2ZWYlVqWGJRQkFBQT0ifQ== -->
-<div data-pagedtable="false">
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":["total_quantity"],"name":[1],"type":["dbl"],"align":["right"]}],"data":[{"1":"3.5"}],"options":{"columns":{"min":{},"max":[10],"total":[1]},"rows":{"min":[10],"max":[10],"total":[1]},"pages":{}}}
-  </script>
-</div>
-<!-- rnb-frame-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3BvbmdlX2Nha2VfdGVzdCA8LSBjYWtlcyAlPiUgXG4gIGZpbHRlcihjYWtlID09IFwiU3BvbmdlXCIsXG4gICAgICAgICBtZWFzdXJlID09IFwiY3VwXCIpICU+JSBcbiAgc3VtbWFyaXNlKHRvdGFsX3F1YW50aXR5ID0gc3VtKHF1YW50aXR5KSlcbmBgYCJ9 -->
+<pre class="r"><code>sponge_cake_test &lt;- cakes %&gt;% 
+  filter(cake == &quot;Sponge&quot;,
+         measure == &quot;cup&quot;) %&gt;% 
+  summarise(total_quantity = sum(quantity))</code></pre>
+<!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <ol start="3" style="list-style-type: decimal">
@@ -1805,13 +1809,12 @@ total?</li>
 </ol>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibnJvdyI6MSwibmNvbCI6MSwic3VtbWFyeSI6eyJBIHRpYmJsZSI6WyIxIMOXIDEiXX19LCJyZGYiOiJINHNJQUFBQUFBQUFBMTFQUVdyRE1CQmNLMUdUR0ZvQ2hmN0NocEljOG9DUUI1UVdmRE9LclNhaXpzcElDdW14TDdlN01oSWswa0c3Tyt6TTdIenNxMDFlNVFBd2d6bGpNT1BVQXYvNlBCUTdJSVNHRE9hdzh2V1hsbDRuQU9BNTFHV3l4RkZjcEtWbWZRZStZYTN3WkdTckpEcGJPeWxzcnpVbTFKWFJ0ekxTdlQ3N28yK2tsM28wbmJDcFI5NEtKOHB2UTN5YWhvU3kwTDFUR29uRWZBS2VrRE9UQU9zcitrdmFvamxmOGFkNDMzcUhFQm51NG1lUHZmZGtZOURpUWV0SjRrbWhqTWQzNGlpN01MeFE1Q2x4MlJ1RkxrWWgxSlpPT3hIMzhrWjNFWm5Dd2ZBUHFCNkNxcmtCQUFBPSJ9 -->
-<div data-pagedtable="false">
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":["n_ingredients_teaspoon"],"name":[1],"type":["int"],"align":["right"]}],"data":[{"1":"8"}],"options":{"columns":{"min":{},"max":[10],"total":[1]},"rows":{"min":[10],"max":[10],"total":[1]},"pages":{}}}
-  </script>
-</div>
-<!-- rnb-frame-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubl9pbl90ZWFzcG9vbnMgPC0gY2FrZXMgJT4lIFxuICBmaWx0ZXIobWVhc3VyZSA9PSBcInRlYXNwb29uXCIpICU+JSBcbiAgZGlzdGluY3QoaW5ncmVkaWVudCkgJT4lIFxuICBzdW1tYXJpc2Uobl9pbmdyZWRpZW50c190ZWFzcG9vbiA9IG4oKSlcbmBgYCJ9 -->
+<pre class="r"><code>n_in_teaspoons &lt;- cakes %&gt;% 
+  filter(measure == &quot;teaspoon&quot;) %&gt;% 
+  distinct(ingredient) %&gt;% 
+  summarise(n_ingredients_teaspoon = n())</code></pre>
+<!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <ol start="4" style="list-style-type: decimal">
@@ -1819,13 +1822,13 @@ total?</li>
 </ol>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibnJvdyI6MiwibmNvbCI6Miwic3VtbWFyeSI6eyJBIHRpYmJsZSI6WyIyIMOXIDIiXX19LCJyZGYiOiJINHNJQUFBQUFBQUFBMTFRUVc3Q01CQmNRdHlLVkpTcS9VQStrRnlRVU0rMDZyVVNhaVZ1YUVsY0VtRnM1RGlpeDc2Y2RPM1lCeHpKOGV6WU0rUGR6ZnQybVcwekFKaENtaVF3WlFTQmZYOTlGSzlBREJVVFNHRm05MSs2OUVMQWtrOXVIdy9tYTl4amwyT2ZiNXIrNU1ublQ4bnp0YnFJL0sxUmxSSm91TDNxNVEvanV2Rm5Fays4aTd6VENvL2M0NFZSQnNWT3FsMHJENXJYa1g2bTFhVU1IaTdvajM3RE1GempvRXBnRjRJQ21kVm9zUHpScEtjcWx0eXJzMm1WSkZGaUo4QWk4VVJIeEtLWDlpVjFVVFc5UEJZckcrQ094Mi91Y1hLTGJXUXllQ3ZtcmU2NFBMUXl6SUFKM0hQaGkwZnEyRFZjbm5VclRlaUUySzUwc3dvTXpUOHdyamU0L2dPTzg3U0crQUVBQUE9PSJ9 -->
-<div data-pagedtable="false">
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":["cake"],"name":[1],"type":["chr"],"align":["left"]},{"label":["total_no_ingred"],"name":[2],"type":["int"],"align":["right"]}],"data":[{"1":"Babas au Rhum","2":"11"},{"1":"One Bowl Chocolate","2":"11"}],"options":{"columns":{"min":{},"max":[10],"total":[2]},"rows":{"min":[10],"max":[10],"total":[2]},"pages":{}}}
-  </script>
-</div>
-<!-- rnb-frame-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubW9zdF91bmlxdWVfaW5ncmVkIDwtIGNha2VzICU+JSBcbiAgZ3JvdXBfYnkoY2FrZSkgJT4lIFxuICBzdW1tYXJpc2UodG90YWxfbm9faW5ncmVkID0gbigpKSAlPiUgXG4gIGFycmFuZ2UoZGVzYyh0b3RhbF9ub19pbmdyZWQpKSAlPiUgXG4gIGhlYWQoMilcbmBgYCJ9 -->
+<pre class="r"><code>most_unique_ingred &lt;- cakes %&gt;% 
+  group_by(cake) %&gt;% 
+  summarise(total_no_ingred = n()) %&gt;% 
+  arrange(desc(total_no_ingred)) %&gt;% 
+  head(2)</code></pre>
+<!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <ol start="5" style="list-style-type: decimal">
@@ -1833,18 +1836,18 @@ total?</li>
 </ol>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY2FrZXNcblxuYGBgIn0= -->
-<pre class="r"><code>cakes
-</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaW5nZWRpZW50c19vbmNlIDwtIGNha2VzICU+JSBcbiAgZ3JvdXBfYnkoaW5ncmVkaWVudCkgJT4lIFxuICBtdXRhdGUodGltZXNfdXNlZCA9IG4oKSkgJT4lIFxuICBmaWx0ZXIodGltZXNfdXNlZCA9PSAxKSAlPiUgXG4gIHNlbGVjdChpbmdyZWRpZW50LCB0aW1lc191c2VkKVxuYGBgIn0= -->
+<pre class="r"><code>ingedients_once &lt;- cakes %&gt;% 
+  group_by(ingredient) %&gt;% 
+  mutate(times_used = n()) %&gt;% 
+  filter(times_used == 1) %&gt;% 
+  select(ingredient, times_used)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiRXJyb3I6IG9iamVjdCAnY2FrZXMnIG5vdCBmb3VuZFxuIn0= -->
-<pre><code>Error: object &#39;cakes&#39; not found</code></pre>
-<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiVGFzayAyIC0gQ2FrZSBSZWNpcGVzIgpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sKLS0tCgpgYGB7cn0KbGlicmFyeSh0aWR5dmVyc2UpCmxpYnJhcnkocmVhZHIpCmxpYnJhcnkoamFuaXRvcikKbGlicmFyeShza2ltcikKbGlicmFyeShzdHJpbmdyKQpgYGAKCmBgYHtyfQpjYWtlcyA8LSByZWFkX2NzdigiZGF0YS9jbGVhbl9kYXRhL2Nha2VzX2NsZWFuLmNzdiIpCmBgYAoKMS4yLjIgQW5hbHlzaXMgcXVlc3Rpb25zCjEuIFdoaWNoIGNha2UgaGFzIHRoZSBtb3N0IGNvY29hIGluIGl0PwoKYGBge3J9Cm1vc3RfY29jb2FfY2FrZSA8LSBjYWtlcyAlPiUgCiAgZmlsdGVyKGluZ3JlZGllbnQgPT0gIkNvY29hIikgJT4lIAogIHNsaWNlX21heChxdWFudGl0eSkKYGBgCgoyLiBGb3Igc3BvbmdlIGNha2UsIGhvdyBtYW55IGN1cHMgb2YgaW5ncmVkaWVudHMgYXJlIHVzZWQgaW4gdG90YWw/CmBgYHtyfQpzcG9uZ2VfY2FrZV90ZXN0IDwtIGNha2VzICU+JSAKICBmaWx0ZXIoY2FrZSA9PSAiU3BvbmdlIiwKICAgICAgICAgbWVhc3VyZSA9PSAiY3VwIikgJT4lIAogIHN1bW1hcmlzZSh0b3RhbF9xdWFudGl0eSA9IHN1bShxdWFudGl0eSkpCmBgYAoKMy4gSG93IG1hbnkgaW5ncmVkaWVudHMgYXJlIG1lYXN1cmVkIGluIHRlYXNwb29ucz8KCmBgYHtyfQpuX2luX3RlYXNwb29ucyA8LSBjYWtlcyAlPiUgCiAgZmlsdGVyKG1lYXN1cmUgPT0gInRlYXNwb29uIikgJT4lIAogIGRpc3RpbmN0KGluZ3JlZGllbnQpICU+JSAKICBzdW1tYXJpc2Uobl9pbmdyZWRpZW50c190ZWFzcG9vbiA9IG4oKSkKYGBgCgo0LiBXaGljaCBjYWtlIGhhcyB0aGUgbW9zdCB1bmlxdWUgaW5ncmVkaWVudHM/CgpgYGB7cn0KbW9zdF91bmlxdWVfaW5ncmVkIDwtIGNha2VzICU+JSAKICBncm91cF9ieShjYWtlKSAlPiUgCiAgc3VtbWFyaXNlKHRvdGFsX25vX2luZ3JlZCA9IG4oKSkgJT4lIAogIGFycmFuZ2UoZGVzYyh0b3RhbF9ub19pbmdyZWQpKSAlPiUgCiAgaGVhZCgyKQpgYGAKCjUuIFdoaWNoIGluZ3JlZGllbnRzIGFyZSB1c2VkIG9ubHkgb25jZT8KCmBgYHtyfQppbmdlZGllbnRzX29uY2UgPC0gY2FrZXMgJT4lIAogIGdyb3VwX2J5KGluZ3JlZGllbnQpICU+JSAKICBtdXRhdGUodGltZXNfdXNlZCA9IG4oKSkgJT4lIAogIGZpbHRlcih0aW1lc191c2VkID09IDEpICU+JSAKICBzZWxlY3QoaW5ncmVkaWVudCwgdGltZXNfdXNlZCkKYGBgCgoKCg==</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiVGFzayAyIC0gQ2FrZSBSZWNpcGVzIgpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sKLS0tCgpgYGB7cn0KbGlicmFyeSh0aWR5dmVyc2UpCmxpYnJhcnkocmVhZHIpCmxpYnJhcnkoamFuaXRvcikKbGlicmFyeShza2ltcikKbGlicmFyeShzdHJpbmdyKQpsaWJyYXJ5KGhlcmUpCmBgYAoKYGBge3J9CmhlcmUoKQpjYWtlcyA8LSByZWFkX2NzdihoZXJlKCJkYXRhL2NsZWFuX2RhdGEvY2FrZXNfY2xlYW4uY3N2IikpCmBgYAoKMS4yLjIgQW5hbHlzaXMgcXVlc3Rpb25zCjEuIFdoaWNoIGNha2UgaGFzIHRoZSBtb3N0IGNvY29hIGluIGl0PwoKYGBge3J9Cm1vc3RfY29jb2FfY2FrZSA8LSBjYWtlcyAlPiUgCiAgZmlsdGVyKGluZ3JlZGllbnQgPT0gIkNvY29hIikgJT4lIAogIHNsaWNlX21heChxdWFudGl0eSkKYGBgCgoyLiBGb3Igc3BvbmdlIGNha2UsIGhvdyBtYW55IGN1cHMgb2YgaW5ncmVkaWVudHMgYXJlIHVzZWQgaW4gdG90YWw/CmBgYHtyfQpzcG9uZ2VfY2FrZV90ZXN0IDwtIGNha2VzICU+JSAKICBmaWx0ZXIoY2FrZSA9PSAiU3BvbmdlIiwKICAgICAgICAgbWVhc3VyZSA9PSAiY3VwIikgJT4lIAogIHN1bW1hcmlzZSh0b3RhbF9xdWFudGl0eSA9IHN1bShxdWFudGl0eSkpCmBgYAoKMy4gSG93IG1hbnkgaW5ncmVkaWVudHMgYXJlIG1lYXN1cmVkIGluIHRlYXNwb29ucz8KCmBgYHtyfQpuX2luX3RlYXNwb29ucyA8LSBjYWtlcyAlPiUgCiAgZmlsdGVyKG1lYXN1cmUgPT0gInRlYXNwb29uIikgJT4lIAogIGRpc3RpbmN0KGluZ3JlZGllbnQpICU+JSAKICBzdW1tYXJpc2Uobl9pbmdyZWRpZW50c190ZWFzcG9vbiA9IG4oKSkKYGBgCgo0LiBXaGljaCBjYWtlIGhhcyB0aGUgbW9zdCB1bmlxdWUgaW5ncmVkaWVudHM/CgpgYGB7cn0KbW9zdF91bmlxdWVfaW5ncmVkIDwtIGNha2VzICU+JSAKICBncm91cF9ieShjYWtlKSAlPiUgCiAgc3VtbWFyaXNlKHRvdGFsX25vX2luZ3JlZCA9IG4oKSkgJT4lIAogIGFycmFuZ2UoZGVzYyh0b3RhbF9ub19pbmdyZWQpKSAlPiUgCiAgaGVhZCgyKQpgYGAKCjUuIFdoaWNoIGluZ3JlZGllbnRzIGFyZSB1c2VkIG9ubHkgb25jZT8KCmBgYHtyfQppbmdlZGllbnRzX29uY2UgPC0gY2FrZXMgJT4lIAogIGdyb3VwX2J5KGluZ3JlZGllbnQpICU+JSAKICBtdXRhdGUodGltZXNfdXNlZCA9IG4oKSkgJT4lIAogIGZpbHRlcih0aW1lc191c2VkID09IDEpICU+JSAKICBzZWxlY3QoaW5ncmVkaWVudCwgdGltZXNfdXNlZCkKYGBgCgoKCg==</div>
 
 
 
