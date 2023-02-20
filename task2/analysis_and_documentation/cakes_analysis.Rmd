@@ -13,7 +13,6 @@ library(here)
 ```
 
 ```{r}
-here()
 cakes <- read_csv(here("data/clean_data/cakes_clean.csv"))
 ```
 

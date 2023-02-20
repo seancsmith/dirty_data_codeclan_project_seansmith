@@ -1,0 +1,18 @@
+---
+title: "Task 4 - Cleaning"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+library(janitor)
+library(here)
+library(readxl)
+```
+
+```{r}
+bb_candy_2015 <- read_xlsx("data/raw_data/boing-boing-candy-2015.xlsx")
+bb_candy_2016 <- read_xlsx("data/raw_data/boing-boing-candy-2016.xlsx")
+bb_candy_2017 <- read_xlsx("data/raw_data/boing-boing-candy-2017.xlsx")
+```
+

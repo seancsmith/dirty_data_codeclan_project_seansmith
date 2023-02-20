@@ -11,7 +11,7 @@
 
 
 
-<title>Task 2 - Cake Recipes</title>
+<title>Cake Ingredient Analysis</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -1746,7 +1746,7 @@ display: none;
 
 
 
-<h1 class="title toc-ignore">Task 2 - Cake Recipes</h1>
+<h1 class="title toc-ignore">Cake Ingredient Analysis</h1>
 
 </div>
 
@@ -1754,185 +1754,262 @@ display: none;
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxubGlicmFyeSh0aWR5dmVyc2UpXG5saWJyYXJ5KHJlYWRyKVxubGlicmFyeShqYW5pdG9yKVxubGlicmFyeShza2ltcilcbmxpYnJhcnkoc3RyaW5ncilcbmxpYnJhcnkoaGVyZSlcbmBgYFxuYGBgIn0= -->
-<pre class="r"><code>```r
-library(tidyverse)
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeSh0aWR5dmVyc2UpXG5saWJyYXJ5KHJlYWRyKVxubGlicmFyeShqYW5pdG9yKVxubGlicmFyeShza2ltcilcbmxpYnJhcnkoc3RyaW5ncilcbmxpYnJhcnkoaGVyZSlcbmBgYCJ9 -->
+<pre class="r"><code>library(tidyverse)
 library(readr)
 library(janitor)
 library(skimr)
 library(stringr)
 library(here)</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-chunk-end --&gt;
-
-
-&lt;!-- rnb-text-begin --&gt;
-
-
-
-&lt;!-- rnb-text-end --&gt;
-
-
-&lt;!-- rnb-chunk-begin --&gt;
-
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuY2FrZXMgPC0gcmVhZF9jc3YoaGVyZShcXGRhdGEvY2xlYW5fZGF0YS9jYWtlc19jbGVhbi5jc3ZcXCkpXG5cbmBgYFxuYGBgIn0= --&gt;
-
-```r
-```r
-cakes &lt;- read_csv(here(\data/clean_data/cakes_clean.csv\))
-</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-output-begin eyJkYXRhIjoiUm93czogMTU2IENvbHVtbnM6IDTilIDilIAgQ29sdW1uIHNwZWNpZmljYXRpb24g4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSAXG5EZWxpbWl0ZXI6IFxcXG4ifQ== --&gt;
-</code></pre>
-<p>Rows: 156 Columns: 4── Column specification
-───────────────────────────────────────────────────────────
-Delimiter:<br />
-</p>
-<pre><code>
-
-
-&lt;!-- rnb-output-end --&gt;
-
-&lt;!-- rnb-chunk-end --&gt;
-
-
-&lt;!-- rnb-text-begin --&gt;
-
-
-1.2.2 Analysis questions
-1. Which cake has the most cocoa in it?
-
-
-&lt;!-- rnb-text-end --&gt;
-
-
-&lt;!-- rnb-chunk-begin --&gt;
-
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxubW9zdF9jb2NvYV9jYWtlIDwtIGNha2VzICU+JSBcbiAgZmlsdGVyKGluZ3JlZGllbnQgPT0gXFxDb2NvYVxcKSAlPiUgXG4gIHNsaWNlX21heChxdWFudGl0eSlcbmBgYFxuYGBgIn0= --&gt;
-
-```r
-```r
-most_cocoa_cake &lt;- cakes %&gt;% 
-  filter(ingredient == \Cocoa\) %&gt;% 
-  slice_max(quantity)</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-chunk-end --&gt;
-
-
-&lt;!-- rnb-text-begin --&gt;
-
-
-2. For sponge cake, how many cups of ingredients are used in total?
-
-&lt;!-- rnb-text-end --&gt;
-
-
-&lt;!-- rnb-chunk-begin --&gt;
-
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuc3BvbmdlX2Nha2VfdGVzdCA8LSBjYWtlcyAlPiUgXG4gIGZpbHRlcihjYWtlID09IFxcU3BvbmdlXFwsXG4gICAgICAgICBtZWFzdXJlID09IFxcY3VwXFwpICU+JSBcbiAgc3VtbWFyaXNlKHRvdGFsX3F1YW50aXR5ID0gc3VtKHF1YW50aXR5KSlcbmBgYFxuYGBgIn0= --&gt;
-
-```r
-```r
-sponge_cake_test &lt;- cakes %&gt;% 
-  filter(cake == \Sponge\,
-         measure == \cup\) %&gt;% 
-  summarise(total_quantity = sum(quantity))</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-chunk-end --&gt;
-
-
-&lt;!-- rnb-text-begin --&gt;
-
-
-3. How many ingredients are measured in teaspoons?
-
-
-&lt;!-- rnb-text-end --&gt;
-
-
-&lt;!-- rnb-chunk-begin --&gt;
-
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxubl9pbl90ZWFzcG9vbnMgPC0gY2FrZXMgJT4lIFxuICBmaWx0ZXIobWVhc3VyZSA9PSBcXHRlYXNwb29uXFwpICU+JSBcbiAgZGlzdGluY3QoaW5ncmVkaWVudCkgJT4lIFxuICBzdW1tYXJpc2Uobl9pbmdyZWRpZW50c190ZWFzcG9vbiA9IG4oKSlcbmBgYFxuYGBgIn0= --&gt;
-
-```r
-```r
-n_in_teaspoons &lt;- cakes %&gt;% 
-  filter(measure == \teaspoon\) %&gt;% 
-  distinct(ingredient) %&gt;% 
-  summarise(n_ingredients_teaspoon = n())</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-chunk-end --&gt;
-
-
-&lt;!-- rnb-text-begin --&gt;
-
-
-4. Which cake has the most unique ingredients?
-
-
-&lt;!-- rnb-text-end --&gt;
-
-
-&lt;!-- rnb-chunk-begin --&gt;
-
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxubW9zdF91bmlxdWVfaW5ncmVkIDwtIGNha2VzICU+JSBcbiAgZ3JvdXBfYnkoY2FrZSkgJT4lIFxuICBzdW1tYXJpc2UodG90YWxfbm9faW5ncmVkID0gbigpKSAlPiUgXG4gIGFycmFuZ2UoZGVzYyh0b3RhbF9ub19pbmdyZWQpKSAlPiUgXG4gIGhlYWQoMilcbmBgYFxuYGBgIn0= --&gt;
-
-```r
-```r
-most_unique_ingred &lt;- cakes %&gt;% 
-  group_by(cake) %&gt;% 
-  summarise(total_no_ingred = n()) %&gt;% 
-  arrange(desc(total_no_ingred)) %&gt;% 
-  head(2)</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-chunk-end --&gt;
-
-
-&lt;!-- rnb-text-begin --&gt;
-
-
-5. Which ingredients are used only once?
-
-
-&lt;!-- rnb-text-end --&gt;
-
-
-&lt;!-- rnb-chunk-begin --&gt;
-
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuaW5nZWRpZW50c19vbmNlIDwtIGNha2VzICU+JSBcbiAgZ3JvdXBfYnkoaW5ncmVkaWVudCkgJT4lIFxuICBtdXRhdGUodGltZXNfdXNlZCA9IG4oKSkgJT4lIFxuICBmaWx0ZXIodGltZXNfdXNlZCA9PSAxKSAlPiUgXG4gIHNlbGVjdChpbmdyZWRpZW50LCB0aW1lc191c2VkKVxuYGBgXG5gYGAifQ== --&gt;
-
-```r
-```r
-ingedients_once &lt;- cakes %&gt;% 
-  group_by(ingredient) %&gt;% 
-  mutate(times_used = n()) %&gt;% 
-  filter(times_used == 1) %&gt;% 
-  select(ingredient, times_used)</code></pre>
-<p>```</p>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBSZWFkIGluIHRoZSBkYXRhXG5jYWtlX3JlY2lwZXMgPC0gcmVhZF9jc3YoaGVyZShcImRhdGEvcmF3X2RhdGEvY2FrZS1pbmdyZWRpZW50cy0xOTYxLmNzdlwiKSlcbmBgYCJ9 -->
+<pre class="r"><code># Read in the data
+cake_recipes &lt;- read_csv(here(&quot;data/raw_data/cake-ingredients-1961.csv&quot;))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiUm93czogMTggQ29sdW1uczogMzXilIDilIAgQ29sdW1uIHNwZWNpZmljYXRpb24g4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSAXG5EZWxpbWl0ZXI6IFwiLFwiXG5jaHIgICgxKTogQ2FrZVxuZGJsICgzMyk6IEFFLCBCUCwgQlIsIEJTLCBDQSwgQ0MsIENFLCBDSSwgQ1MsIENULCBEQywgRUcsIEVZLCBFVywgRlIsIEdOLCBIQywgLi4uXG5sZ2wgICgxKTogQk1cbuKEuSBVc2UgYHNwZWMoKWAgdG8gcmV0cmlldmUgdGhlIGZ1bGwgY29sdW1uIHNwZWNpZmljYXRpb24gZm9yIHRoaXMgZGF0YS5cbuKEuSBTcGVjaWZ5IHRoZSBjb2x1bW4gdHlwZXMgb3Igc2V0IGBzaG93X2NvbF90eXBlcyA9IEZBTFNFYCB0byBxdWlldCB0aGlzIG1lc3NhZ2UuXG4ifQ== -->
+<pre><code>Rows: 18 Columns: 35── Column specification ──────────────────────────────────────────────────────────
+Delimiter: &quot;,&quot;
+chr  (1): Cake
+dbl (33): AE, BP, BR, BS, CA, CC, CE, CI, CS, CT, DC, EG, EY, EW, FR, GN, HC, ...
+lgl  (1): BM
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY2FrZV9jb2RlcyA8LSByZWFkX2NzdihoZXJlKFwiZGF0YS9yYXdfZGF0YS9jYWtlX2luZ3JlZGllbnRfY29kZS5jc3ZcIikpXG5gYGAifQ== -->
+<pre class="r"><code>cake_codes &lt;- read_csv(here(&quot;data/raw_data/cake_ingredient_code.csv&quot;))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiUm93czogMzQgQ29sdW1uczogM+KUgOKUgCBDb2x1bW4gc3BlY2lmaWNhdGlvbiDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIBcbkRlbGltaXRlcjogXCIsXCJcbmNociAoMyk6IGNvZGUsIGluZ3JlZGllbnQsIG1lYXN1cmVcbuKEuSBVc2UgYHNwZWMoKWAgdG8gcmV0cmlldmUgdGhlIGZ1bGwgY29sdW1uIHNwZWNpZmljYXRpb24gZm9yIHRoaXMgZGF0YS5cbuKEuSBTcGVjaWZ5IHRoZSBjb2x1bW4gdHlwZXMgb3Igc2V0IGBzaG93X2NvbF90eXBlcyA9IEZBTFNFYCB0byBxdWlldCB0aGlzIG1lc3NhZ2UuXG4ifQ== -->
+<pre><code>Rows: 34 Columns: 3── Column specification ──────────────────────────────────────────────────────────
+Delimiter: &quot;,&quot;
+chr (3): code, ingredient, measure
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<div id="cake-ingredient-analysis" class="section level1">
+<h1>Cake Ingredient Analysis</h1>
+<div id="the-raw-data" class="section level2">
+<h2>The Raw Data</h2>
+<p>The <em>raw data</em> came in the form of two .csv files. Table 1
+(cake_ingredients_1961.csv) contains all the different types of cake
+with all of the <code>ingredient codes</code> as column headers. This
+file was in <strong>wide format</strong> and filled with <strong>NA
+values</strong>. Table 2 (cake_ingredient_code) contains a list of
+ingredients and their correspongding <em>ingredient code</em>, as well
+as a measure column. The only thing missing from this table was the
+<code>measure</code> value for “Sour cream cup”.</p>
+</div>
+<div id="assumptions" class="section level2">
+<h2>Assumptions</h2>
+<p>My first assumption was that I would have to change the format of
+Table 1 to <strong>long format</strong>. This would make it easier to
+see which ingredients were required for each cake. I could see there
+were many <em>NA values</em> in this table and I was assuming that these
+ingredients were not required for the corresponding cake, as oppose to
+<em>missing information</em>. The brief states that the full ingredient
+name is required and not just the <code>ingredient code</code>. So I
+thought the best way to approach this is to <strong>join</strong> the
+tables using the <code>ingredient code</code>.</p>
+<p>Another assumption I made about table 2 was that the <em>missing
+information</em> in the <code>measure</code> column was meant to be
+“cup”. I assumed that the <code>ingredient</code> listed was meant to be
+“Sour cream” and the <code>measure</code> was meant to be “cup”. Rather
+than the ingredient being “Sour cream cup”.</p>
+</div>
+<div id="cleaning-proceess-overview" class="section level2">
+<h2>Cleaning Proceess Overview</h2>
+<ol style="list-style-type: decimal">
+<li><p>My first step was to pivot the table in to <strong>long
+format</strong>. I chose to do this rather than clean the column headers
+as I knew that it would be easier keeping them in upper-case to join the
+tables.</p></li>
+<li><p>I then decided that was the best time to get rid of <em>NA
+values</em> so i used <em>drop_na</em></p></li>
+</ol>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY2FrZV9yZWNpcGVzX2xvbmcgPC0gY2FrZV9yZWNpcGVzICU+JVxuICAgICBwaXZvdF9sb25nZXIoY29scyA9IChcIkFFXCI6XCJaSFwiKSxcbiAgICAgICAgICAgICAgICBuYW1lc190byA9IFwiY29kZVwiLFxuICAgICAgICAgICAgICAgIHZhbHVlc190byA9IFwicXVhbnRpdHlcIilcblxuY2FrZV9yZWNpcGVzX2Ryb3BuYSA8LSBjYWtlX3JlY2lwZXNfbG9uZyAlPiVcbiAgZHJvcF9uYShxdWFudGl0eSlcbmBgYCJ9 -->
+<pre class="r"><code>cake_recipes_long &lt;- cake_recipes %&gt;%
+     pivot_longer(cols = (&quot;AE&quot;:&quot;ZH&quot;),
+                names_to = &quot;code&quot;,
+                values_to = &quot;quantity&quot;)
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiVGFzayAyIC0gQ2FrZSBSZWNpcGVzIgpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sKLS0tCgpgYGB7cn0KbGlicmFyeSh0aWR5dmVyc2UpCmxpYnJhcnkocmVhZHIpCmxpYnJhcnkoamFuaXRvcikKbGlicmFyeShza2ltcikKbGlicmFyeShzdHJpbmdyKQpsaWJyYXJ5KGhlcmUpCmBgYAoKYGBge3J9CmNha2VzIDwtIHJlYWRfY3N2KGhlcmUoImRhdGEvY2xlYW5fZGF0YS9jYWtlc19jbGVhbi5jc3YiKSkKYGBgCgoxLjIuMiBBbmFseXNpcyBxdWVzdGlvbnMKMS4gV2hpY2ggY2FrZSBoYXMgdGhlIG1vc3QgY29jb2EgaW4gaXQ/CgpgYGB7cn0KbW9zdF9jb2NvYV9jYWtlIDwtIGNha2VzICU+JSAKICBmaWx0ZXIoaW5ncmVkaWVudCA9PSAiQ29jb2EiKSAlPiUgCiAgc2xpY2VfbWF4KHF1YW50aXR5KQpgYGAKCjIuIEZvciBzcG9uZ2UgY2FrZSwgaG93IG1hbnkgY3VwcyBvZiBpbmdyZWRpZW50cyBhcmUgdXNlZCBpbiB0b3RhbD8KYGBge3J9CnNwb25nZV9jYWtlX3Rlc3QgPC0gY2FrZXMgJT4lIAogIGZpbHRlcihjYWtlID09ICJTcG9uZ2UiLAogICAgICAgICBtZWFzdXJlID09ICJjdXAiKSAlPiUgCiAgc3VtbWFyaXNlKHRvdGFsX3F1YW50aXR5ID0gc3VtKHF1YW50aXR5KSkKYGBgCgozLiBIb3cgbWFueSBpbmdyZWRpZW50cyBhcmUgbWVhc3VyZWQgaW4gdGVhc3Bvb25zPwoKYGBge3J9Cm5faW5fdGVhc3Bvb25zIDwtIGNha2VzICU+JSAKICBmaWx0ZXIobWVhc3VyZSA9PSAidGVhc3Bvb24iKSAlPiUgCiAgZGlzdGluY3QoaW5ncmVkaWVudCkgJT4lIAogIHN1bW1hcmlzZShuX2luZ3JlZGllbnRzX3RlYXNwb29uID0gbigpKQpgYGAKCjQuIFdoaWNoIGNha2UgaGFzIHRoZSBtb3N0IHVuaXF1ZSBpbmdyZWRpZW50cz8KCmBgYHtyfQptb3N0X3VuaXF1ZV9pbmdyZWQgPC0gY2FrZXMgJT4lIAogIGdyb3VwX2J5KGNha2UpICU+JSAKICBzdW1tYXJpc2UodG90YWxfbm9faW5ncmVkID0gbigpKSAlPiUgCiAgYXJyYW5nZShkZXNjKHRvdGFsX25vX2luZ3JlZCkpICU+JSAKICBoZWFkKDIpCmBgYAoKNS4gV2hpY2ggaW5ncmVkaWVudHMgYXJlIHVzZWQgb25seSBvbmNlPwoKYGBge3J9CmluZ2VkaWVudHNfb25jZSA8LSBjYWtlcyAlPiUgCiAgZ3JvdXBfYnkoaW5ncmVkaWVudCkgJT4lIAogIG11dGF0ZSh0aW1lc191c2VkID0gbigpKSAlPiUgCiAgZmlsdGVyKHRpbWVzX3VzZWQgPT0gMSkgJT4lIAogIHNlbGVjdChpbmdyZWRpZW50LCB0aW1lc191c2VkKQpgYGAKCgoK</div>
+cake_recipes_dropna &lt;- cake_recipes_long %&gt;%
+  drop_na(quantity)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<ol start="3" style="list-style-type: decimal">
+<li>Now seemed like the time to <code>join</code> the tables, clean the
+header names and select only the columns I required (get rid of the
+<em>ingredient code</em>).</li>
+</ol>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIGNha2VfcmVjaXBlc19mdWxsIDwtIGNha2VfcmVjaXBlc19kcm9wbmEgJT4lXG4gIGxlZnRfam9pbihjYWtlX2NvZGVzLCBieSA9IFwiY29kZVwiKVxuXG5jYWtlX3JlY2lwZXNfZnVsbF9jbGVhbiA8LSBjYWtlX3JlY2lwZXNfZnVsbCAlPiVcbiAgY2xlYW5fbmFtZXMoKVxuXG5jYWtlX3JlY2lwZV9jbGVhbiA8LSBjYWtlX3JlY2lwZXNfZnVsbF9jbGVhbiAlPiVcbiAgc2VsZWN0KGNha2UsIGluZ3JlZGllbnQsIG1lYXN1cmUsIHF1YW50aXR5KVxuY2FrZV9yZWNpcGVfY2xlYW5cbmBgYCJ9 -->
+<pre class="r"><code> cake_recipes_full &lt;- cake_recipes_dropna %&gt;%
+  left_join(cake_codes, by = &quot;code&quot;)
+
+cake_recipes_full_clean &lt;- cake_recipes_full %&gt;%
+  clean_names()
+
+cake_recipe_clean &lt;- cake_recipes_full_clean %&gt;%
+  select(cake, ingredient, measure, quantity)
+cake_recipe_clean</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibnJvdyI6MTU2LCJuY29sIjo0LCJzdW1tYXJ5Ijp7IkEgdGliYmxlIjpbIjE1NiDDlyA0Il19fSwicmRmIjoiSDRzSUFBQUFBQUFBQSsxYXZXL2JSaFJuWk5LeVpVczIyZ3lkQ2c0Qk90bERzM1FwN01pdWt3SnQya3I5U0x1ZHlCUEZtcnBUeWFNVmIxMzZSN1R3MXY0Um1ZcXVCVnBBUUlldUFnSVVBYnBrOEJDZ1FkSW42bmdtajZSSVduSWF1NkZOSGUvZDNYdS85M2xIZ0szOWV6ZHI5MnFLb2l3cGFxV2lMR253cUdpZmZYcXc5WTRDRk9oY1UxUmxkZExlaDBtdnc0TUs5eWJjSjN4QXUwVXM3RnhJcDk1RUhlVHB5TmRiUGI5L1pZa2I3U0hHVE4vclVZTTZpT0dyU2E0M2ZhT0hkUlByZDJuRXc0c24xdlo2R0h2WVFJZjQwbEFhTGIrdlgxSHFhMDBIRXhPNy80T1Jqd2pXbTNUb0pJTC8xUWhzR2kxczZ2djR5SGJlOHZRRFNzMnJRbTlUSDRMQnhhaXZIL2ltaGE4NGZlT09UeXprMm9oTUJ5OEx1YjduK3YyT2pvaXAzL1haeTB0Y2J3OXNBMEx0WStvVDh3WFNOdHJNUmNNT2R0MWp2VVVkNTdLUXEyMTBCTjRtLzNGM3M0a0kvT250SG5WWlpGTzRMUFRyRWV1K0dqc2JXMjRQS0xFdXBoZC9rMnJjY3ZvVVNnSDJQRXdNVVc2bkZaaDJkWVpjK09mazFmY3NTeC8yYkxHOXJyZnRMb09VN2pwUXRrTmYzM1lSOFNkN3NLbDd2aVVXcTIza2hPVm00M05FYk1kQk9yNFBSakJDOG5MVFp3eUhDeHI3cmcwOEROOEZoc3dMMlFDRzhIbGxndWVZT29jejROUSt3S0NnRGprVDFoejFRMXVzV0dxSk42SXMzTm9YNkF5VDlpVkdYanJjVmZuc0VVV2FoaXlLUTIxVEU4MXZ3QmpXUFBtTGM5UWVaUXhabUI5T0M0cGZtenJtYTk4V1laZjBWU000RHhoQk5CcitvQVR5bGErR051NGdvMWNZWlBVMkJwYWl0cTdkd2Vqb2VDcTdET1NTNFJYRm5JNXhEVFpzcndmTDNoZFNsNE05UENzTlpFWE9iK2hZUE5XYjZOQW1sajZnUS9Nc0lmWWc2RkZCbDJkRmZDMm9mNWdBOXdYbndNc0hyM3laaUNCSjk5TEZtUzk5ZDBnTmhOeDBUNmJUSENoVEljU3pJZ29vNWxrNDlYcWxMVmVvRU9iWllCbEU5M0VaSjZYcWViNTZteVZ1WFp4RGJPd1Y5MEE1eldlWHlTS1d5TjZHMDJNaEJxODZQWCtXak0reUVBc0FPWi9yb2tESzdZaDV6bDFnZ3Bkd1l2d0l1c0xBbVFOS1NVWi9pWklRMk5LWnhwSEhYQWFSVXNsUXg4RlozRk1GemVDbXdadXNNUnRiMXBRNHZheUc1MU4ra1liVUJwRzMrSFRHU1Z1ZjhZTjk4RGxjK1JCaWRzb1NtdUxWWWpBS3V5c0JLNFlrMVpnejhTM0VOck9EdVpDSFoxcHVZWGwxOFZBS3BGT1dnUmRsZ3JuTFdBbGU4eVI1S1gxekdjOWhrQUlsSkpxWjMvaklaWXV5eDZ3RjVVdi9QTzU0RVpVNGVNd3NLNlVzTy9mbXpMRTA0RDdaR1NuQnRYTTZiWGR2OFA1ajNqN2g3VWlpOC83dVNweStxL0QrVTk2T3BmbEt2Qy9haHplRFMvRFpsRnBWa2kvTEcwdmo0L2g2UVQvOWJYTDlucGdmNHVENjdyNGgwUi9udENOcFhjaEhrWERtOGNuZ204RDd4OVJlaGZtT0pUdzNNdkQ5MVEwdU1UK01oNnc0Q0hISmVKNUs4MDZsK1Ura2NkNkc4WlRBSmV2RDVXWHhTZmh6SmFOVjR2UGt1RXJNMzh5UUorc2g0ZDY5bmlIdkg2N0htUGNmOFhZc3lYc2t0Vm55dWY5RVhzcjJHZkgyb1NSM0ZKOG41UEo1c2gwU2NuLzU4Yy9hdTRPZkJPNXczczhQUHZuN3V6Y2Y3UHo2L2VUNklUZHZwVG9nMnlPQlQ3YkxLTTVmK3B4Skk2Z1BiMkhUdHgrVkU5WG9OeHJ3MHVWaTA4WWtMTWZWUGxSUDN4VWJEWlJxd214MkxIRmVkZWx3TytSZWg3dnlMZnhBdFRkbENJYUR2QkJDU0t5WmlLSHRyZ3Zyb2ZkTVdsS2xBMlpUQW9zcWswK3hOR254TlZjaWJQaGtnc1RjTW5vK09keDZleUlnR0o1ZWRmNThFbmxXcHlJcnp6a3JqYk5heHNTeXhmNmlPYWdqUHJocGdNYUJ3dHNEMXhibXFnSFYyMmFVSWZGaGprR2RrQkxvcGp6N0YyTU5raUNCSmdBQSJ9 -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["cake"],"name":[1],"type":["chr"],"align":["left"]},{"label":["ingredient"],"name":[2],"type":["chr"],"align":["left"]},{"label":["measure"],"name":[3],"type":["chr"],"align":["left"]},{"label":["quantity"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"Angel","2":"Almond essence","3":"teaspoon","4":"0.25"},{"1":"Angel","2":"Cream of tartar","3":"teaspoon","4":"1.25"},{"1":"Angel","2":"Egg white","3":"one","4":"10.00"},{"1":"Angel","2":"Sifted flour","3":"cup","4":"1.00"},{"1":"Angel","2":"Granulated sugar","3":"cup","4":"1.50"},{"1":"Angel","2":"Salt","3":"teaspoon","4":"0.25"},{"1":"Angel","2":"Vanilla extract","3":"teaspoon","4":"1.00"},{"1":"Babas au Rhum","2":"Butter","3":"cup","4":"0.25"},{"1":"Babas au Rhum","2":"Dried currants","3":"tablespoon","4":"3.00"},{"1":"Babas au Rhum","2":"Eggs","3":"one","4":"1.00"},{"1":"Babas au Rhum","2":"Egg yolk","3":"one","4":"2.00"},{"1":"Babas au Rhum","2":"Sifted flour","3":"cup","4":"1.75"},{"1":"Babas au Rhum","2":"Lemon rind","3":"teaspoon","4":"0.50"},{"1":"Babas au Rhum","2":"Milk","3":"cup","4":"0.25"},{"1":"Babas au Rhum","2":"Rum","3":"ounce","4":"2.00"},{"1":"Babas au Rhum","2":"Granulated sugar","3":"cup","4":"0.25"},{"1":"Babas au Rhum","2":"Water","3":"cup","4":"0.25"},{"1":"Babas au Rhum","2":"Yeast","3":"ounce","4":"0.60"},{"1":"Sweet Chocolate","2":"Butter","3":"cup","4":"1.00"},{"1":"Sweet Chocolate","2":"Chocolate","3":"ounce","4":"4.00"},{"1":"Sweet Chocolate","2":"Eggs","3":"one","4":"4.00"},{"1":"Sweet Chocolate","2":"Sifted flour","3":"cup","4":"2.50"},{"1":"Sweet Chocolate","2":"Milk","3":"cup","4":"1.00"},{"1":"Sweet Chocolate","2":"Soda","3":"teaspoon","4":"1.00"},{"1":"Sweet Chocolate","2":"Granulated sugar","3":"cup","4":"2.00"},{"1":"Sweet Chocolate","2":"Salt","3":"teaspoon","4":"0.50"},{"1":"Sweet Chocolate","2":"Vanilla extract","3":"teaspoon","4":"1.00"},{"1":"Sweet Chocolate","2":"Water","3":"cup","4":"0.50"},{"1":"Buche de Noel","2":"Eggs","3":"one","4":"4.00"},{"1":"Buche de Noel","2":"Sifted flour","3":"cup","4":"1.00"},{"1":"Buche de Noel","2":"Granulated sugar","3":"cup","4":"1.30"},{"1":"Buche de Noel","2":"Salt","3":"teaspoon","4":"0.50"},{"1":"Buche de Noel","2":"Vanilla extract","3":"teaspoon","4":"1.00"},{"1":"Cheesecake","2":"Butter","3":"cup","4":"0.25"},{"1":"Cheesecake","2":"Cottage Cheese","3":"pound","4":"1.50"},{"1":"Cheesecake","2":"Eggs","3":"one","4":"6.00"},{"1":"Cheesecake","2":"Sifted flour","3":"cup","4":"0.25"},{"1":"Cheesecake","2":"Lemon juice","3":"tablespoon","4":"1.00"},{"1":"Cheesecake","2":"Lemon rind","3":"teaspoon","4":"1.00"},{"1":"Cheesecake","2":"Sour cream cup","3":"NA","4":"1.00"},{"1":"Cheesecake","2":"Granulated sugar","3":"cup","4":"1.00"},{"1":"Cheesecake","2":"Salt","3":"teaspoon","4":"0.25"},{"1":"Cheesecake","2":"Zwiebach","3":"ounce","4":"6.00"},{"1":"Rum Cheesecake","2":"Cottage Cheese","3":"pound","4":"1.50"},{"1":"Rum Cheesecake","2":"Eggs","3":"one","4":"2.00"},{"1":"Rum Cheesecake","2":"Gelatin","3":"tablespoon","4":"2.00"},{"1":"Rum Cheesecake","2":"Heavy cream","3":"cup","4":"1.00"},{"1":"Rum Cheesecake","2":"Lemon juice","3":"tablespoon","4":"1.00"},{"1":"Rum Cheesecake","2":"Lemon rind","3":"teaspoon","4":"1.00"},{"1":"Rum Cheesecake","2":"Milk","3":"cup","4":"1.00"},{"1":"Rum Cheesecake","2":"Rum","3":"ounce","4":"1.00"},{"1":"Rum Cheesecake","2":"Granulated sugar","3":"cup","4":"1.00"},{"1":"Rum Cheesecake","2":"Salt","3":"teaspoon","4":"0.25"},{"1":"Blender Cheesecake","2":"Cottage Cheese","3":"pound","4":"0.50"},{"1":"Blender Cheesecake","2":"Crushed Ice","3":"cup","4":"1.00"},{"1":"Blender Cheesecake","2":"Crumbs","3":"cup","4":"0.30"},{"1":"Blender Cheesecake","2":"Egg yolk","3":"one","4":"2.00"},{"1":"Blender Cheesecake","2":"Gelatin","3":"tablespoon","4":"1.00"},{"1":"Blender Cheesecake","2":"Lemon juice","3":"tablespoon","4":"1.00"},{"1":"Blender Cheesecake","2":"Lemon rind","3":"teaspoon","4":"1.00"},{"1":"Blender Cheesecake","2":"Sour cream cup","3":"NA","4":"1.00"},{"1":"Blender Cheesecake","2":"Water","3":"cup","4":"0.50"},{"1":"One Bowl Chocolate","2":"Baking powder","3":"teaspoon","4":"2.00"},{"1":"One Bowl Chocolate","2":"Cocoa","3":"tablespoon","4":"10.00"},{"1":"One Bowl Chocolate","2":"Eggs","3":"one","4":"2.00"},{"1":"One Bowl Chocolate","2":"Sifted flour","3":"cup","4":"2.00"},{"1":"One Bowl Chocolate","2":"Milk","3":"cup","4":"0.70"},{"1":"One Bowl Chocolate","2":"Soda","3":"teaspoon","4":"0.50"},{"1":"One Bowl Chocolate","2":"Shortening","3":"tablespoon","4":"10.00"},{"1":"One Bowl Chocolate","2":"Granulated sugar","3":"cup","4":"1.50"},{"1":"One Bowl Chocolate","2":"Salt","3":"teaspoon","4":"0.25"},{"1":"One Bowl Chocolate","2":"Vanilla extract","3":"teaspoon","4":"1.00"},{"1":"One Bowl Chocolate","2":"Water","3":"cup","4":"0.50"},{"1":"Red Devil's Food","2":"Cocoa","3":"tablespoon","4":"0.30"},{"1":"Red Devil's Food","2":"Eggs","3":"one","4":"2.00"},{"1":"Red Devil's Food","2":"Sifted flour","3":"cup","4":"1.75"},{"1":"Red Devil's Food","2":"Milk","3":"cup","4":"1.00"},{"1":"Red Devil's Food","2":"Soda","3":"teaspoon","4":"1.25"},{"1":"Red Devil's Food","2":"Shortening","3":"tablespoon","4":"0.50"},{"1":"Red Devil's Food","2":"Granulated sugar","3":"cup","4":"1.50"},{"1":"Red Devil's Food","2":"Salt","3":"teaspoon","4":"1.00"},{"1":"Red Devil's Food","2":"Vanilla extract","3":"teaspoon","4":"1.00"},{"1":"Sour Cream Fudge","2":"Chocolate","3":"ounce","4":"3.00"},{"1":"Sour Cream Fudge","2":"Eggs","3":"one","4":"2.00"},{"1":"Sour Cream Fudge","2":"Sifted flour","3":"cup","4":"2.00"},{"1":"Sour Cream Fudge","2":"Soda","3":"teaspoon","4":"1.00"},{"1":"Sour Cream Fudge","2":"Sour cream cup","3":"NA","4":"1.00"},{"1":"Sour Cream Fudge","2":"Shortening","3":"tablespoon","4":"0.30"},{"1":"Sour Cream Fudge","2":"Granulated sugar","3":"cup","4":"1.50"},{"1":"Sour Cream Fudge","2":"Salt","3":"teaspoon","4":"1.00"},{"1":"Sour Cream Fudge","2":"Vanilla extract","3":"teaspoon","4":"1.00"},{"1":"Sour Cream Fudge","2":"Water","3":"cup","4":"0.25"},{"1":"Hungarian Cream","2":"Almond essence","3":"teaspoon","4":"1.50"},{"1":"Hungarian Cream","2":"Baking powder","3":"teaspoon","4":"3.00"},{"1":"Hungarian Cream","2":"Eggs","3":"one","4":"3.00"},{"1":"Hungarian Cream","2":"Sifted flour","3":"cup","4":"3.00"},{"1":"Hungarian Cream","2":"Heavy cream","3":"cup","4":"2.00"},{"1":"Hungarian Cream","2":"Granulated sugar","3":"cup","4":"1.50"},{"1":"Hungarian Cream","2":"Salt","3":"teaspoon","4":"1.00"},{"1":"Hungarian Cream","2":"Vanilla extract","3":"teaspoon","4":"2.00"},{"1":"Crumb and Nut","2":"Baking powder","3":"teaspoon","4":"3.00"},{"1":"Crumb and Nut","2":"Crumbs","3":"cup","4":"3.00"},{"1":"Crumb and Nut","2":"Eggs","3":"one","4":"4.00"},{"1":"Crumb and Nut","2":"Milk","3":"cup","4":"1.00"},{"1":"Crumb and Nut","2":"Nuts","3":"cup","4":"1.00"},{"1":"Crumb and Nut","2":"Shortening","3":"tablespoon","4":"1.00"},{"1":"Crumb and Nut","2":"Granulated sugar","3":"cup","4":"1.00"},{"1":"Crumb and Nut","2":"Vanilla extract","3":"teaspoon","4":"2.00"},{"1":"Spiced Pound","2":"Butter","3":"cup","4":"1.00"},{"1":"Spiced Pound","2":"Eggs","3":"one","4":"5.00"},{"1":"Spiced Pound","2":"Sifted flour","3":"cup","4":"2.00"},{"1":"Spiced Pound","2":"Nutmeg","3":"teaspoon","4":"1.50"},{"1":"Spiced Pound","2":"Granulated sugar","3":"cup","4":"1.70"},{"1":"Spiced Pound","2":"Salt","3":"teaspoon","4":"0.50"},{"1":"Strawberry Roll","2":"Baking powder","3":"teaspoon","4":"0.75"},{"1":"Strawberry Roll","2":"Cottage Cheese","3":"pound","4":"0.50"},{"1":"Strawberry Roll","2":"Eggs","3":"one","4":"4.00"},{"1":"Strawberry Roll","2":"Sifted flour","3":"cup","4":"0.75"},{"1":"Strawberry Roll","2":"Granulated sugar","3":"cup","4":"0.75"},{"1":"Strawberry Roll","2":"Strawberries","3":"quart","4":"1.00"},{"1":"Strawberry Roll","2":"Salt","3":"teaspoon","4":"1.00"},{"1":"Strawberry Roll","2":"Vanilla extract","3":"teaspoon","4":"1.00"},{"1":"Savarin","2":"Butter","3":"cup","4":"0.70"},{"1":"Savarin","2":"Eggs","3":"one","4":"3.00"},{"1":"Savarin","2":"Sifted flour","3":"cup","4":"1.50"},{"1":"Savarin","2":"Lemon rind","3":"teaspoon","4":"1.00"},{"1":"Savarin","2":"Milk","3":"cup","4":"0.25"},{"1":"Savarin","2":"Granulated sugar","3":"cup","4":"0.60"},{"1":"Savarin","2":"Salt","3":"teaspoon","4":"0.50"},{"1":"Savarin","2":"Water","3":"cup","4":"0.25"},{"1":"Savarin","2":"Yeast","3":"ounce","4":"1.00"},{"1":"Banana Shortcake","2":"Baking powder","3":"teaspoon","4":"4.00"},{"1":"Banana Shortcake","2":"Butter","3":"cup","4":"0.60"},{"1":"Banana Shortcake","2":"Bananas","3":"one","4":"3.00"},{"1":"Banana Shortcake","2":"Sifted flour","3":"cup","4":"3.00"},{"1":"Banana Shortcake","2":"Heavy cream","3":"cup","4":"1.00"},{"1":"Banana Shortcake","2":"Milk","3":"cup","4":"1.00"},{"1":"Banana Shortcake","2":"Granulated sugar","3":"cup","4":"0.13"},{"1":"Banana Shortcake","2":"Salt","3":"teaspoon","4":"0.50"},{"1":"Strawberry Shortcake","2":"Baking powder","3":"teaspoon","4":"3.00"},{"1":"Strawberry Shortcake","2":"Butter","3":"cup","4":"0.12"},{"1":"Strawberry Shortcake","2":"Cottage Cheese","3":"pound","4":"0.20"},{"1":"Strawberry Shortcake","2":"Eggs","3":"one","4":"1.00"},{"1":"Strawberry Shortcake","2":"Sifted flour","3":"cup","4":"2.00"},{"1":"Strawberry Shortcake","2":"Milk","3":"cup","4":"0.50"},{"1":"Strawberry Shortcake","2":"Sour cream cup","3":"NA","4":"1.00"},{"1":"Strawberry Shortcake","2":"Granulated sugar","3":"cup","4":"0.60"},{"1":"Strawberry Shortcake","2":"Strawberries","3":"quart","4":"1.00"},{"1":"Strawberry Shortcake","2":"Salt","3":"teaspoon","4":"0.75"},{"1":"Sponge","2":"Almond essence","3":"teaspoon","4":"0.50"},{"1":"Sponge","2":"Baking powder","3":"teaspoon","4":"1.00"},{"1":"Sponge","2":"Eggs","3":"one","4":"4.00"},{"1":"Sponge","2":"Sifted flour","3":"cup","4":"0.75"},{"1":"Sponge","2":"Granulated sugar","3":"cup","4":"0.75"},{"1":"Sponge","2":"Salt","3":"teaspoon","4":"0.25"},{"1":"Sponge","2":"Water","3":"cup","4":"2.00"}],"options":{"columns":{"min":{},"max":[10],"total":[4]},"rows":{"min":[10],"max":[10],"total":[156]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<ol start="4" style="list-style-type: decimal">
+<li>The last step in my cleaning process was dealing with the
+<em>missing information</em>. This was in the <code>measure</code>
+column corresponding to “Sour cream cup”. As previously mentioned I
+removed the “cup” from the <code>ingredient</code> column and added it
+to the <code>measure</code> column.</li>
+</ol>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY2FrZV9yZWNpcGVfY2xlYW5fc291ciA8LSBjYWtlX3JlY2lwZV9jbGVhbiAlPiVcbiAgbXV0YXRlKG1lYXN1cmUgPSBjb2FsZXNjZShtZWFzdXJlLCBcImN1cFwiKSlcblxuY2FrZV9yZWNpcGVfY2xlYW5fY3VwX3JlbW92ZSA8LSBjYWtlX3JlY2lwZV9jbGVhbl9zb3VyICU+JVxuICBtdXRhdGUoaW5ncmVkaWVudCA9IHN0cl9yZW1vdmUoaW5ncmVkaWVudCwgXCIgY3VwXCIpKVxuXG5jYWtlc19jbGVhbmVkIDwtIGNha2VfcmVjaXBlX2NsZWFuX2N1cF9yZW1vdmVcbmBgYCJ9 -->
+<pre class="r"><code>cake_recipe_clean_sour &lt;- cake_recipe_clean %&gt;%
+  mutate(measure = coalesce(measure, &quot;cup&quot;))
+
+cake_recipe_clean_cup_remove &lt;- cake_recipe_clean_sour %&gt;%
+  mutate(ingredient = str_remove(ingredient, &quot; cup&quot;))
+
+cakes_cleaned &lt;- cake_recipe_clean_cup_remove</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="task-analysis" class="section level2">
+<h2>Task Analysis</h2>
+<p>Read in cleaned data</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY2FrZXMgPC0gcmVhZF9jc3YoaGVyZShcImRhdGEvY2xlYW5fZGF0YS9jYWtlc19jbGVhbi5jc3ZcIikpXG5gYGAifQ== -->
+<pre class="r"><code>cakes &lt;- read_csv(here(&quot;data/clean_data/cakes_clean.csv&quot;))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiUm93czogMTU2IENvbHVtbnM6IDTilIDilIAgQ29sdW1uIHNwZWNpZmljYXRpb24g4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSAXG5EZWxpbWl0ZXI6IFwiLFwiXG5jaHIgKDMpOiBjYWtlLCBpbmdyZWRpZW50LCBtZWFzdXJlXG5kYmwgKDEpOiBxdWFudGl0eVxu4oS5IFVzZSBgc3BlYygpYCB0byByZXRyaWV2ZSB0aGUgZnVsbCBjb2x1bW4gc3BlY2lmaWNhdGlvbiBmb3IgdGhpcyBkYXRhLlxu4oS5IFNwZWNpZnkgdGhlIGNvbHVtbiB0eXBlcyBvciBzZXQgYHNob3dfY29sX3R5cGVzID0gRkFMU0VgIHRvIHF1aWV0IHRoaXMgbWVzc2FnZS5cbiJ9 -->
+<pre><code>Rows: 156 Columns: 4── Column specification ──────────────────────────────────────────────────────────
+Delimiter: &quot;,&quot;
+chr (3): cake, ingredient, measure
+dbl (1): quantity
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<ol style="list-style-type: decimal">
+<li>Which cake has the most cocoa in it?</li>
+</ol>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInNwZWNfdGJsX2RmIiwidGJsX2RmIiwidGJsIiwiZGF0YS5mcmFtZSJdLCJucm93IjoxLCJuY29sIjo0LCJzdW1tYXJ5Ijp7IkEgdGliYmxlIjpbIjEgw5cgNCJdfX0sInJkZiI6Ikg0c0lBQUFBQUFBQUExMVJ3VTdETUF4MXU0U3hTaHNJZm1BSHJ1MWxGNDZJSWE1SUNLUmR2VFpzMGJKa0pLa0dONzU4dyswU05HSXBpZjNzWitjbHIwK0xXYkVvQUdBQUxNOWh3TWtGL3Y3MlhONERJUlJrd0dEVW5WOVVkRXNPbzNWOWxyaDUwV0w2YVBacU9sK2IyaWowSXFuZ2M4SXhBUXVQU3lYY3poaE4wYVRMUE54QnNIK1R1Y2F0Y0lIT0FzaHEzSWpZU3VxVkZZMFUyZ2RrdUJYb1doc0xMajliMUY3Njc2VHp5SnA5RmJ1UGFlVS90QjNKMGl2VUNwMUxGVFRvc2Zxd3hLZm9rRkNHWnVlbDBVVEt1MWZqQ1RtekNYRFY2dTRtVFZtdlc3MHBaOTJBUG4yeWNmQ3pNNStkUnViSDBJcUhWaGRDcjZTTzRybkNwVkFobUpEaVhuQzFzL0x2dVFwQ1hlV054MWhYMEVkR3BOY0doMS9MR0dpMkxBSUFBQT09In0= -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["cake"],"name":[1],"type":["chr"],"align":["left"]},{"label":["ingredient"],"name":[2],"type":["chr"],"align":["left"]},{"label":["measure"],"name":[3],"type":["chr"],"align":["left"]},{"label":["quantity"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"One Bowl Chocolate","2":"Cocoa","3":"tablespoon","4":"10"}],"options":{"columns":{"min":{},"max":[10],"total":[4]},"rows":{"min":[10],"max":[10],"total":[1]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<ul>
+<li>The <code>One Bowl Chocolate</code> cake has the most
+<code>Cocoa</code> in it by far.</li>
+</ul>
+<ol start="2" style="list-style-type: decimal">
+<li>For sponge cake, how many cups of ingredients are used in
+total?</li>
+</ol>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibnJvdyI6MSwibmNvbCI6MSwic3VtbWFyeSI6eyJBIHRpYmJsZSI6WyIxIMOXIDEiXX19LCJyZGYiOiJINHNJQUFBQUFBQUFBMTFRelFyQ01Bek91bFZ4K0FjK3gzWVJ3YU1IOFFGRVlUZXBjK3F3dG5QclVHOCsrVFFkTGN3VzBpUWYrWko4MmE2VGVaaUVBT0JEUUFqNEZFT2crOTBtV2dJaW1IZ1F3RUQ3RnhiTldnQmdyUDFxQ09iOUZWTEI3bG1Gd2JRRGpwVlVqQjhlTlJNcVYyK0hNaWpsTTdhMEVScjU0UGZGNS9aT09hdmMzdUdKS1JhZlMrUmoxamlVdml4VUxnV1NpTjZlT21TdmRJQkpMZlFtcHlpOTF1SVdMZlFBb3hyTWRwNnhUcXhIa3E5cFJVMnJYaVl1dWNqczdwd2RNMjd2Z1lwYndYRlI1a0paSlloV2NYc3FpNlNTVzZUVkJzMFArbDNJcnJRQkFBQT0ifQ== -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["total_quantity"],"name":[1],"type":["dbl"],"align":["right"]}],"data":[{"1":"3.5"}],"options":{"columns":{"min":{},"max":[10],"total":[1]},"rows":{"min":[10],"max":[10],"total":[1]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<ul>
+<li>Filter by <em>Sponge</em> and <em>cup</em> and then find the total
+of those values, which gives us 3.5 cups.</li>
+</ul>
+<ol start="3" style="list-style-type: decimal">
+<li>How many ingredients are measured in teaspoons?</li>
+</ol>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibnJvdyI6MSwibmNvbCI6MSwic3VtbWFyeSI6eyJBIHRpYmJsZSI6WyIxIMOXIDEiXX19LCJyZGYiOiJINHNJQUFBQUFBQUFBMTFQMjRyQ01CQ2RSdU9sNEFVRS82SjlXUVEvWVBFREZoZDhrOWpHR3V4T1NoSlpIL2ZMZFNjbEFVMGVNak9IT2VmTStmbzhmT1NISEFBR01HUU1CcHhhNE4vN1hiRUZRbWpJWUFoVFgrKzB0T29CZ0Ztb2syU0pvL2lSbHBybEM3akdvOExHeUZwSmRQYm9wTENkMXBoUXAwYi9scEh1OWRrZmZVOTZxVWZWQ3B0NjVMVndvandiNHRQMFNDaGozVG1sa1VqTUorQUpPVE1Kc0xpaHY2UXVxc3NOcjhYR0c0VEU4SkkrZSsrOUpYc0dLUjZrUmhJYmhUTGUzb3FUYk1Nd3A4Ujk0TEl6Q2wxTVFxZ3RuWFlpN3VXVmJpUFNaNFBIUHhGR3M1eTRBUUFBIn0= -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["n_ingredients_teaspoon"],"name":[1],"type":["int"],"align":["right"]}],"data":[{"1":"8"}],"options":{"columns":{"min":{},"max":[10],"total":[1]},"rows":{"min":[10],"max":[10],"total":[1]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<ul>
+<li>Filter by <em>teaspoon</em> and use the <strong>distinct()</strong>
+function to find all of the individual ingredients that are measured in
+teaspoons.</li>
+</ul>
+<ol start="4" style="list-style-type: decimal">
+<li>Which cake has the most unique ingredients?</li>
+</ol>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibnJvdyI6MiwibmNvbCI6Miwic3VtbWFyeSI6eyJBIHRpYmJsZSI6WyIyIMOXIDIiXX19LCJyZGYiOiJINHNJQUFBQUFBQUFBMTFRUVc3Q01CQmNRdHlLVkpTcS9VQStrRnk0MEN1dGVxMkVXb2tiV2hLWFJCZ2JPWTdvc1M4blhUdjJBVWR5UER2MnpIaDM4NzVkWnRzTUFLYVFKZ2xNR1VGZzMxOGZ4UXFJb1dJQ0tjenMva3VYWGdoWThzbnQ0OEY4alh2c2N1enpUZE9mUFBuOEtYbStWaGVSdnpXcVVnSU50MWU5L0dGY04vNU00b2wza1hkYTRaRjd2RERLb05oSnRXdmxRZk02MHMrMHVwVEJ3d1g5MFc4WWhtc2NWQW5zUWxBZ3N4b05saithOUZURmtudDFOcTJTSkVyc0JGZ2tudWlJV1BUU3ZxUXVxcWFYeCtMVkJyamo4WnQ3bk54aUc1a00zb3A1cXpzdUQ2ME1NMkFDOTF6NDRwRTZkZzJYWjkxS0V6b2h0aXZkckFKRDh3K002dzJ1LzdNR1RObjRBUUFBIn0= -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["cake"],"name":[1],"type":["chr"],"align":["left"]},{"label":["total_no_ingred"],"name":[2],"type":["int"],"align":["right"]}],"data":[{"1":"Babas au Rhum","2":"11"},{"1":"One Bowl Chocolate","2":"11"}],"options":{"columns":{"min":{},"max":[10],"total":[2]},"rows":{"min":[10],"max":[10],"total":[2]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<ul>
+<li>On finding the sum of the ingredients for each cake I discovered
+that both the <code>Babas au Rhum</code> and
+<code>One Bowl Chocolate</code> both contained 11 ingredients. Which was
+the highest number of ingredients of all of the cakes.</li>
+</ul>
+<ol start="5" style="list-style-type: decimal">
+<li>Which ingredients are used only once?</li>
+</ol>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImdyb3VwZWRfZGYiLCJ0YmxfZGYiLCJ0YmwiLCJkYXRhLmZyYW1lIl0sIm5yb3ciOjgsIm5jb2wiOjIsInN1bW1hcnkiOnsiQSB0aWJibGUiOlsiOCDDlyAyIl0sIkdyb3VwcyI6WyJpbmdyZWRpZW50IFs4XSJdfX0sInJkZiI6Ikg0c0lBQUFBQUFBQUEzMVJUVStFTUJBdExIVVhqTHFKZjRBL0FNbkdpMmQzTmZIaXdXaXk4V0s2cFF1TjBHNzZFVHo2c3owdFRySFZ5TUZBNmN6amRXYmU2K05tZTVWdE00VFFEQ1Z4akdZWVFvU2ZuKzZLYXdRSUpCRktVT3IyZHlCZFF1REFKYXlGLzNHeFZveDB1ZHpuaGloNFBaemUxblhlTjl3d0Q1eHZGR2RWVHExU1JCanQwY1ZMejltTzBNYm5wMnRsZFFPOGV4b09KZy8yaDM0Q2NjZHFuODF2aUlCSFEzZzJUdVRHL1hmOWtZUnBTN1QyY2dLWVZjU1FjcTlJeHliMFZNbStGSUNIZnZFSGZJWmgrSnpXRGFUbGFKZXZ5MFd0V01XWk1BRXhIR2l2VnJNS3N1T2t5RndlREpjQ3lzVE9kVHdaTTFJVFlHbUZhMXNWdExIaXJWaXRYQWN2SFBtQkkyOVNpT1B2bnNuZ2ErSGdNaE0xRjhGLzNKSWRhOE10Z2dtanZQS2crSzhVUUhWcHBDR0JsMUhaQm1RVWg0NWZMQlpZa20wQ0FBQT0ifQ== -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["ingredient"],"name":[1],"type":["chr"],"align":["left"]},{"label":["times_used"],"name":[2],"type":["int"],"align":["right"]}],"data":[{"1":"Cream of tartar","2":"1"},{"1":"Egg white","2":"1"},{"1":"Dried currants","2":"1"},{"1":"Zwiebach","2":"1"},{"1":"Crushed Ice","2":"1"},{"1":"Nuts","2":"1"},{"1":"Nutmeg","2":"1"},{"1":"Bananas","2":"1"}],"options":{"columns":{"min":{},"max":[10],"total":[2]},"rows":{"min":[10],"max":[10],"total":[8]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<ul>
+<li><strong>Grouped by</strong> ingredients and then counted how many
+times each one occurs. I then filtered to show all of the ingredients
+which occured only once.</li>
+</ul>
+<!-- rnb-text-end -->
+</div>
+</div>
+
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiQ2FrZSBJbmdyZWRpZW50IEFuYWx5c2lzIgpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sKLS0tCgpgYGB7cn0KbGlicmFyeSh0aWR5dmVyc2UpCmxpYnJhcnkocmVhZHIpCmxpYnJhcnkoamFuaXRvcikKbGlicmFyeShza2ltcikKbGlicmFyeShzdHJpbmdyKQpsaWJyYXJ5KGhlcmUpCmBgYAoKCmBgYHtyfQojIFJlYWQgaW4gdGhlIGRhdGEKY2FrZV9yZWNpcGVzIDwtIHJlYWRfY3N2KGhlcmUoImRhdGEvcmF3X2RhdGEvY2FrZS1pbmdyZWRpZW50cy0xOTYxLmNzdiIpKQpjYWtlX2NvZGVzIDwtIHJlYWRfY3N2KGhlcmUoImRhdGEvcmF3X2RhdGEvY2FrZV9pbmdyZWRpZW50X2NvZGUuY3N2IikpCmBgYAoKIyBDYWtlIEluZ3JlZGllbnQgQW5hbHlzaXMKCiMjIFRoZSBSYXcgRGF0YQoKVGhlICpyYXcgZGF0YSogY2FtZSBpbiB0aGUgZm9ybSBvZiB0d28gLmNzdiBmaWxlcy4gVGFibGUgMSAoY2FrZV9pbmdyZWRpZW50c18xOTYxLmNzdikgIGNvbnRhaW5zIGFsbCB0aGUgZGlmZmVyZW50IHR5cGVzIG9mIGNha2Ugd2l0aCBhbGwgb2YgdGhlIGBpbmdyZWRpZW50IGNvZGVzYCBhcyBjb2x1bW4gaGVhZGVycy4gVGhpcyBmaWxlIHdhcyBpbiBfX3dpZGUgZm9ybWF0X18gYW5kIGZpbGxlZCB3aXRoICoqTkEgdmFsdWVzKiouIFRhYmxlIDIgKGNha2VfaW5ncmVkaWVudF9jb2RlKSBjb250YWlucyBhIGxpc3Qgb2YgaW5ncmVkaWVudHMgYW5kIHRoZWlyIGNvcnJlc3BvbmdkaW5nIF9pbmdyZWRpZW50IGNvZGVfLCBhcyB3ZWxsIGFzIGEgbWVhc3VyZSBjb2x1bW4uIFRoZSBvbmx5IHRoaW5nIG1pc3NpbmcgZnJvbSB0aGlzIHRhYmxlIHdhcyB0aGUgYG1lYXN1cmVgIHZhbHVlIGZvciAiU291ciBjcmVhbSBjdXAiLgoKIyMgQXNzdW1wdGlvbnMKCk15IGZpcnN0IGFzc3VtcHRpb24gd2FzIHRoYXQgSSB3b3VsZCBoYXZlIHRvIGNoYW5nZSB0aGUgZm9ybWF0IG9mIFRhYmxlIDEgdG8gX19sb25nIGZvcm1hdF9fLiBUaGlzIHdvdWxkIG1ha2UgaXQgZWFzaWVyIHRvIHNlZSB3aGljaCBpbmdyZWRpZW50cyB3ZXJlIHJlcXVpcmVkIGZvciBlYWNoIGNha2UuIEkgY291bGQgc2VlIHRoZXJlIHdlcmUgbWFueSBfTkEgdmFsdWVzXyBpbiB0aGlzIHRhYmxlIGFuZCBJIHdhcyBhc3N1bWluZyB0aGF0IHRoZXNlIGluZ3JlZGllbnRzIHdlcmUgbm90IHJlcXVpcmVkIGZvciB0aGUgY29ycmVzcG9uZGluZyBjYWtlLCBhcyBvcHBvc2UgdG8gKm1pc3NpbmcgaW5mb3JtYXRpb24qLiBUaGUgYnJpZWYgc3RhdGVzIHRoYXQgdGhlIGZ1bGwgaW5ncmVkaWVudCBuYW1lIGlzIHJlcXVpcmVkIGFuZCBub3QganVzdCB0aGUgYGluZ3JlZGllbnQgY29kZWAuIFNvIEkgdGhvdWdodCB0aGUgYmVzdCB3YXkgdG8gYXBwcm9hY2ggdGhpcyBpcyB0byAqKmpvaW4qKiB0aGUgdGFibGVzIHVzaW5nIHRoZSBgaW5ncmVkaWVudCBjb2RlYC4gCgpBbm90aGVyIGFzc3VtcHRpb24gSSBtYWRlIGFib3V0IHRhYmxlIDIgd2FzIHRoYXQgdGhlICptaXNzaW5nIGluZm9ybWF0aW9uKiBpbiB0aGUgYG1lYXN1cmVgIGNvbHVtbiB3YXMgbWVhbnQgdG8gYmUgImN1cCIuIEkgYXNzdW1lZCB0aGF0IHRoZSBgaW5ncmVkaWVudGAgbGlzdGVkIHdhcyBtZWFudCB0byBiZSAiU291ciBjcmVhbSIgYW5kIHRoZSBgbWVhc3VyZWAgd2FzIG1lYW50IHRvIGJlICJjdXAiLiBSYXRoZXIgdGhhbiB0aGUgaW5ncmVkaWVudCBiZWluZyAiU291ciBjcmVhbSBjdXAiLgoKCiMjIENsZWFuaW5nIFByb2NlZXNzIE92ZXJ2aWV3CgoxLiBNeSBmaXJzdCBzdGVwIHdhcyB0byBwaXZvdCB0aGUgdGFibGUgaW4gdG8gX19sb25nIGZvcm1hdF9fLiBJIGNob3NlIHRvIGRvIHRoaXMgcmF0aGVyIHRoYW4gY2xlYW4gdGhlIGNvbHVtbiBoZWFkZXJzIGFzIEkga25ldyB0aGF0IGl0IHdvdWxkIGJlIGVhc2llciBrZWVwaW5nIHRoZW0gaW4gdXBwZXItY2FzZSB0byBqb2luIHRoZSB0YWJsZXMuCgoyLiBJIHRoZW4gZGVjaWRlZCB0aGF0IHdhcyB0aGUgYmVzdCB0aW1lIHRvIGdldCByaWQgb2YgX05BIHZhbHVlc18gc28gaSB1c2VkIF9kcm9wX25hXwpgYGB7cn0KY2FrZV9yZWNpcGVzX2xvbmcgPC0gY2FrZV9yZWNpcGVzICU+JQogICAgIHBpdm90X2xvbmdlcihjb2xzID0gKCJBRSI6IlpIIiksCiAgICAgICAgICAgICAgICBuYW1lc190byA9ICJjb2RlIiwKICAgICAgICAgICAgICAgIHZhbHVlc190byA9ICJxdWFudGl0eSIpCgpjYWtlX3JlY2lwZXNfZHJvcG5hIDwtIGNha2VfcmVjaXBlc19sb25nICU+JQogIGRyb3BfbmEocXVhbnRpdHkpCmBgYAoKMy4gTm93IHNlZW1lZCBsaWtlIHRoZSB0aW1lIHRvIGBqb2luYCB0aGUgdGFibGVzLCBjbGVhbiB0aGUgaGVhZGVyIG5hbWVzIGFuZCBzZWxlY3Qgb25seSB0aGUgY29sdW1ucyBJIHJlcXVpcmVkIChnZXQgcmlkIG9mIHRoZSBfaW5ncmVkaWVudCBjb2RlXykuCmBgYHtyfQogY2FrZV9yZWNpcGVzX2Z1bGwgPC0gY2FrZV9yZWNpcGVzX2Ryb3BuYSAlPiUKICBsZWZ0X2pvaW4oY2FrZV9jb2RlcywgYnkgPSAiY29kZSIpCgpjYWtlX3JlY2lwZXNfZnVsbF9jbGVhbiA8LSBjYWtlX3JlY2lwZXNfZnVsbCAlPiUKICBjbGVhbl9uYW1lcygpCgpjYWtlX3JlY2lwZV9jbGVhbiA8LSBjYWtlX3JlY2lwZXNfZnVsbF9jbGVhbiAlPiUKICBzZWxlY3QoY2FrZSwgaW5ncmVkaWVudCwgbWVhc3VyZSwgcXVhbnRpdHkpCmNha2VfcmVjaXBlX2NsZWFuCmBgYAoKNC4gVGhlIGxhc3Qgc3RlcCBpbiBteSBjbGVhbmluZyBwcm9jZXNzIHdhcyBkZWFsaW5nIHdpdGggdGhlICptaXNzaW5nIGluZm9ybWF0aW9uKi4gVGhpcyB3YXMgaW4gdGhlIGBtZWFzdXJlYCBjb2x1bW4gY29ycmVzcG9uZGluZyB0byAiU291ciBjcmVhbSBjdXAiLiBBcyBwcmV2aW91c2x5IG1lbnRpb25lZCBJIHJlbW92ZWQgdGhlICJjdXAiIGZyb20gdGhlIGBpbmdyZWRpZW50YCBjb2x1bW4gYW5kIGFkZGVkIGl0IHRvIHRoZSBgbWVhc3VyZWAgY29sdW1uLgpgYGB7cn0KY2FrZV9yZWNpcGVfY2xlYW5fc291ciA8LSBjYWtlX3JlY2lwZV9jbGVhbiAlPiUKICBtdXRhdGUobWVhc3VyZSA9IGNvYWxlc2NlKG1lYXN1cmUsICJjdXAiKSkKCmNha2VfcmVjaXBlX2NsZWFuX2N1cF9yZW1vdmUgPC0gY2FrZV9yZWNpcGVfY2xlYW5fc291ciAlPiUKICBtdXRhdGUoaW5ncmVkaWVudCA9IHN0cl9yZW1vdmUoaW5ncmVkaWVudCwgIiBjdXAiKSkKCmNha2VzX2NsZWFuZWQgPC0gY2FrZV9yZWNpcGVfY2xlYW5fY3VwX3JlbW92ZQpgYGAKCiMjIFRhc2sgQW5hbHlzaXMKClJlYWQgaW4gY2xlYW5lZCBkYXRhCmBgYHtyfQpjYWtlcyA8LSByZWFkX2NzdihoZXJlKCJkYXRhL2NsZWFuX2RhdGEvY2FrZXNfY2xlYW4uY3N2IikpCmBgYAoKMS4gV2hpY2ggY2FrZSBoYXMgdGhlIG1vc3QgY29jb2EgaW4gaXQ/CmBgYHtyfQptb3N0X2NvY29hX2Nha2UgPC0gY2FrZXMgJT4lCiAgZmlsdGVyKGluZ3JlZGllbnQgPT0gIkNvY29hIikgJT4lCiAgc2xpY2VfbWF4KHF1YW50aXR5KQpgYGAKLSBUaGUgYE9uZSBCb3dsIENob2NvbGF0ZWAgY2FrZSBoYXMgdGhlIG1vc3QgYENvY29hYCBpbiBpdCBieSBmYXIuCgoKMi4gRm9yIHNwb25nZSBjYWtlLCBob3cgbWFueSBjdXBzIG9mIGluZ3JlZGllbnRzIGFyZSB1c2VkIGluIHRvdGFsPwpgYGB7cn0Kc3BvbmdlX2Nha2VfdGVzdCA8LSBjYWtlcyAlPiUgCiAgZmlsdGVyKGNha2UgPT0gIlNwb25nZSIsCiAgICAgICAgIG1lYXN1cmUgPT0gImN1cCIpICU+JSAKICBzdW1tYXJpc2UodG90YWxfcXVhbnRpdHkgPSBzdW0ocXVhbnRpdHkpKQpgYGAKLSBGaWx0ZXIgYnkgX1Nwb25nZV8gYW5kIF9jdXBfIGFuZCB0aGVuIGZpbmQgdGhlIHRvdGFsIG9mIHRob3NlIHZhbHVlcywgd2hpY2ggZ2l2ZXMgdXMgMy41IGN1cHMuCgoKMy4gSG93IG1hbnkgaW5ncmVkaWVudHMgYXJlIG1lYXN1cmVkIGluIHRlYXNwb29ucz8KYGBge3J9Cm5faW5fdGVhc3Bvb25zIDwtIGNha2VzICU+JSAKICBmaWx0ZXIobWVhc3VyZSA9PSAidGVhc3Bvb24iKSAlPiUgCiAgZGlzdGluY3QoaW5ncmVkaWVudCkgJT4lIAogIHN1bW1hcmlzZShuX2luZ3JlZGllbnRzX3RlYXNwb29uID0gbigpKQpgYGAKLSBGaWx0ZXIgYnkgX3RlYXNwb29uXyBhbmQgdXNlIHRoZSAqKmRpc3RpbmN0KCkqKiBmdW5jdGlvbiB0byBmaW5kIGFsbCBvZiB0aGUgaW5kaXZpZHVhbCBpbmdyZWRpZW50cyB0aGF0IGFyZSBtZWFzdXJlZCBpbiB0ZWFzcG9vbnMuCgoKNC4gV2hpY2ggY2FrZSBoYXMgdGhlIG1vc3QgdW5pcXVlIGluZ3JlZGllbnRzPwpgYGB7cn0KbW9zdF91bmlxdWVfaW5ncmVkIDwtIGNha2VzICU+JSAKICBncm91cF9ieShjYWtlKSAlPiUgCiAgc3VtbWFyaXNlKHRvdGFsX25vX2luZ3JlZCA9IG4oKSkgJT4lIAogIGFycmFuZ2UoZGVzYyh0b3RhbF9ub19pbmdyZWQpKSAlPiUgCiAgaGVhZCgyKQpgYGAKLSBPbiBmaW5kaW5nIHRoZSBzdW0gb2YgdGhlIGluZ3JlZGllbnRzIGZvciBlYWNoIGNha2UgSSBkaXNjb3ZlcmVkIHRoYXQgYm90aCB0aGUgYEJhYmFzIGF1IFJodW1gIGFuZCBgT25lIEJvd2wgQ2hvY29sYXRlYCBib3RoIGNvbnRhaW5lZCAxMSBpbmdyZWRpZW50cy4gV2hpY2ggd2FzIHRoZSBoaWdoZXN0IG51bWJlciBvZiBpbmdyZWRpZW50cyBvZiBhbGwgb2YgdGhlIGNha2VzLgoKCjUuIFdoaWNoIGluZ3JlZGllbnRzIGFyZSB1c2VkIG9ubHkgb25jZT8KYGBge3J9CmluZ2VkaWVudHNfb25jZSA8LSBjYWtlcyAlPiUgCiAgZ3JvdXBfYnkoaW5ncmVkaWVudCkgJT4lIAogIG11dGF0ZSh0aW1lc191c2VkID0gbigpKSAlPiUgCiAgZmlsdGVyKHRpbWVzX3VzZWQgPT0gMSkgJT4lIAogIHNlbGVjdChpbmdyZWRpZW50LCB0aW1lc191c2VkKQpgYGAKLSAqKkdyb3VwZWQgYnkqKiBpbmdyZWRpZW50cyBhbmQgdGhlbiBjb3VudGVkIGhvdyBtYW55IHRpbWVzIGVhY2ggb25lIG9jY3Vycy4gSSB0aGVuIGZpbHRlcmVkIHRvIHNob3cgYWxsIG9mIHRoZSBpbmdyZWRpZW50cyB3aGljaCBvY2N1cmVkIG9ubHkgb25jZS4=</div>
 
 
 
@@ -1979,7 +2056,7 @@ $(document).ready(function () {
 <!-- code folding -->
 <script>
 $(document).ready(function () {
-  window.initializeSourceEmbed("cakes_analysis.Rmd");
+  window.initializeSourceEmbed("cakes_overview.Rmd");
   window.initializeCodeFolding("show" === "show");
 });
 </script>
