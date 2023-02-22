@@ -10,7 +10,6 @@ library(stringr)
 bb_candy_2016 <- read_xlsx("data/raw_data/boing-boing-candy-2016.xlsx")
 
 # Clean names
-
 bb_candy_2016_clean_names <- bb_candy_2016 %>% 
   clean_names()
 
@@ -24,14 +23,12 @@ bb_candy_2016_new_headers <- bb_candy_2016_clean_names %>%
   )
 
 # Change age to as.numeric and remove decimal
-
 bb_candy_2016_age_str_remove <- bb_candy_2016_new_headers %>%
   mutate(age = str_remove(age, "\\..+")) %>%
   mutate(age = as.numeric(age)) %>% 
   mutate(year = 2016)
 
 # Select and order columns
-
 bb_candy_2016_select <- bb_candy_2016_age_str_remove %>% 
   select(year, going_trick_or_treating, gender,
          age, country, x100_grand_bar:york_peppermint_patties,

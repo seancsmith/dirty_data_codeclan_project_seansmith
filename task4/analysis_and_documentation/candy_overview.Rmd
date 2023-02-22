@@ -27,16 +27,32 @@ The *raw data* came in the form of 3 .xlsx files. These contained data from 3 ye
 
 My first assumption was that I would have to trim off the multiple columns which were not required for the analysis. I also knew that I would have to __pivot__ the table/tables to **long format** at some point. This massively reduced the number of columns and made the data easier to read. Also, I knew I had to __bind__ the tables. I decided that I would do a lot of the **cleaning** of the column headers before binding and then clean the information in the columns after, such as country names and gender.
 
-## Cleaning Proceess Overview
+## Cleaning Process Overview
 
 I have four .R scripts containing all of my cleaning data. I have one for each one of the years (2015, 2016, 2017), then a final cleaning script with all of the data in one table (bb_candy_bind_clean.csv). At the end of this script I wrote the final cleaned table to a `.csv` file ready for analysis. Here is an overview of my cleaning steps.
 
+- Cleaning processes for bb_candy_2015, 2016 & 2017.
 - Read in the .xlsx file and assign it.
 - Use the `clean_names()` function to tidy up the column headers.
 - Use `rename()` and `str_remove()` to further tidy up column names. 
 - Change the column __type__ using `mutate()` and `as.numeric()`.
 - Amend the date as we only required the **year** for analysis.
 - Remove all of the columns which we do not require.
+
+- Cleaning processes for bb_candy_bind_clean.R.
+- Read in the separate years.
+- Connect the data using `bind_rows()`.
+- Tidy the **countries** all together.
+- Use `str_to_lower()` and `str_detect()` to change the numbers to __NA__.
+- Remove the punctuation and use __regex__ to condense the **countries**.
+- As I only need certain countries, change the countries not required to **"other"**.
+- Set a range for the **age** column.
+- `Pivot` the data to __long format__ creating a `candy` and `rating` column.
+- Tidy the names of some of the `candy`.
+- Drop the __NA values__ from the `rating` column as we do not need information on. `candy` which was not rated.
+- Tidy the `gender` column for analysis.
+- Write the final cleaned dataset to a `.csv` file.
+
 
 ## Task Analysis
 

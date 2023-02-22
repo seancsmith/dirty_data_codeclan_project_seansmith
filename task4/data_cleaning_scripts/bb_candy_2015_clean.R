@@ -10,7 +10,6 @@ library(stringr)
 bb_candy_2015 <- read_xlsx("data/raw_data/boing-boing-candy-2015.xlsx")
 
 # Clean names
-
 bb_candy_2015_clean_names <- bb_candy_2015 %>% 
   clean_names()
 
@@ -32,17 +31,14 @@ bb_candy_2015_rename_cols$age[is.infinite(bb_candy_2015_rename_cols$age)] <- NA
 
 
 # Change timestamp value to year
-
 bb_candy_2015_date <- bb_candy_2015_rename_cols %>% 
   mutate(year = 2015)
 
 # Relocate Netto
-
 bb_candy_2015_relocate_netto <- bb_candy_2015_date %>% 
   relocate(necco_wafers, .after = pixy_stix)
 
 # Select columns and order
-
 bb_candy_2015_select <- bb_candy_2015_relocate_netto %>% 
   select(year, age, going_trick_or_treating, 
          butterfinger:york_peppermint_patties,
