@@ -1,0 +1,213 @@
+---
+title: "bb_candy_bind"
+output: html_notebook
+---
+
+```{r}
+# bb_candy_bind_clean
+
+library(tidyverse)
+library(janitor)
+library(here)
+library(readxl)
+library(lubridate)
+library(stringr)
+
+source("data_cleaning_scripts/bb_candy_2015_clean.R")
+source("data_cleaning_scripts/bb_candy_2016_clean.R")
+source("data_cleaning_scripts/bb_candy_2017_clean.R")
+```
+
+
+- Bind the three dataframes
+
+```{r}
+bb_candy_bind  <- bind_rows(bb_candy_2015_clean, bb_candy_2016_clean, bb_candy_2017_clean)
+
+view(bb_candy_bind)
+```
+
+
+- Order the columns
+
+```{r}
+bb_candy_bind_order <- bb_candy_bind%>% 
+  select(year, going_trick_or_treating, gender, age, country,
+         sort(colnames(.)))
+```
+
+
+
+```{r}
+# Replace any numbers to "other"
+bb_candy_bind_number_replace <- bb_candy_bind_order %>% 
+  mutate(change_to_na = str_detect(country, "[0-9]"), .after = country) %>%  
+  mutate(country = ifelse(change_to_na, "other", country))
+
+# Convert all countries to lower case
+bb_candy_bind_str_to_lower <- bb_candy_bind_number_replace %>% 
+  mutate(country = str_to_lower(country))
+
+# Remove all punctuation
+bb_candy_bind_remove_punct <- bb_candy_bind_str_to_lower %>% 
+   mutate(country = str_remove_all(country, "[:punct:]"))
+
+# convert all misspelled countries to the appropriate one 
+bb_candy_bind_str_replace_usa <- bb_candy_bind_remove_punct %>% 
+  mutate(country = str_replace_all(country, ".*usa.*", "usa"),
+         country = str_replace_all(country, "united s.*", "usa"),
+         country = str_replace_all(country, "unites.*", "usa"),
+         country = str_replace_all(country, "unied states", "usa"),
+         country = str_replace_all(country, "unite states", "usa"),
+         country = str_replace_all(country, ".merica", "usa"),
+         country = str_replace_all(country, ".*usa", "usa"),
+         country = str_replace_all(country, "u s.*", "usa"),
+         country = str_replace_all(country, "^us$", "usa"),
+        
+         country = str_replace_all(country, "unhinged states", "usa"),
+         country = str_replace_all(country, "ahemamerca", "usa"),
+         country = str_replace_all(country, "u s a", "usa"),
+         country = str_replace_all(country, ".usa", "usa"),
+         country = str_replace_all(country, "murica", "usa"),
+         country = str_replace_all(country, "new york", "usa"),
+         country = str_replace_all(country, "new jersey", "usa"),
+         country = str_replace_all(country, "california", "usa"),
+         country = str_replace_all(country, "north carolina", "usa"),
+         country = str_replace_all(country, "pittsburgh", "usa"),
+         country = str_replace_all(country, "murrika", "usa"),
+         country = str_replace_all(country, "murica", "usa"),
+         country = str_replace_all(country, "nusa", "usa"),
+         country = str_replace_all(country, "alaska", "usa"),
+         country = str_replace_all(country, "trumpistan", "usa"),
+         country = str_replace_all(country, "merica", "usa"),
+         country = str_replace_all(country, "units states", "usa"),
+         country = str_replace_all(country, "usaa", "usa"),
+         country = str_replace_all(country, "us of a", "usa"),
+         country = str_replace_all(country, "ussa", "usa")
+         )
+  
+bb_candy_bind_str_replace_canada <- bb_candy_bind_str_replace_usa %>% 
+    mutate(country = str_replace_all(country, "canada`", "canada"),
+           country = str_replace_all(country, "soviet canuckistan", "canada"),
+           country = str_replace_all(country, "soviet canada", "canada"))
+
+bb_candy_bind_str_replace_uk <- bb_candy_bind_str_replace_canada %>%
+    mutate(country = str_replace_all(country, "united kingdom", "uk"),
+           country = str_replace_all(country, "united kindom", "uk"),
+           country = str_replace_all(country, "scotland", "uk"),
+           country = str_replace_all(country, "england", "uk")
+           )
+```
+
+```{r}
+bb_candy_bind_country_count_test <- bb_candy_bind_case_test %>%
+  distinct(country) %>% 
+  summarise(n())
+bb_candy_bind_country_count_test
+
+country_counter <- bb_candy_bind_case_test %>% 
+  group_by(country) %>% 
+  summarise(n())
+country_counter
+```
+
+
+- Convert all other countries to "other"
+```{r}
+
+bb_candy_bind_case_country <- bb_candy_bind_str_replace_uk %>%
+  mutate(country = case_when(
+    country == "usa" ~ country,
+    country == "uk" ~ country,
+    country == "canada" ~ country,
+    country == country ~ "other"))
+```
+
+
+
+- Remove the columns that are not required or not candy
+
+```{r}
+bb_candy_bind_column_remove <- bb_candy_bind_case_country %>% 
+  select(-white_bread, -vicodin, 
+         -vials_of_pure_high_fructose_corn_syrup_for_main_lining_into_your_vein,
+         -peterson_brand_sidewalk_chalk,
+         -kale_smoothie,
+         -dental_paraphenalia,
+         -chardonnay,
+         -cash_or_other_forms_of_legal_tender,
+         -broken_glow_stick,
+         -abstained_from_m_ming,
+         -change_to_na,
+         -creepy_religious_comics_chick_tracts,
+         -bonkers_the_board_game,
+         -whole_wheat_anything,
+         -hugs_actual_physical_hugs,
+         -generic_brand_acetaminophen,
+         -candy_that_is_clearly_just_the_stuff_given_out_for_free_at_restaurants,
+         -joy_joy_mit_iodine
+         )
+
+names(bb_candy_bind_column_remove)
+```
+
+- Pivot Test
+```{r}
+bb_candy_bind_pivot_test <- bb_candy_bind_column_remove %>% 
+    pivot_longer(cols = (6:109),
+               names_to = "candy",
+               values_to = "rating")
+view(bb_candy_bind_pivot_test)
+```
+
+```{r}
+bb_candy_bind_candy_removal <- bb_candy_bind_pivot_test %>% 
+  mutate(candy = case_when(
+    candy == "anonymous_brown_globs_that_come_in_black_and_orange_wrappers" ~ "mary_janes",
+    candy == "anonymous_brown_globs_that_come_in_black_and_orange_wrappers_a_k_a_mary_janes" ~ "mary_janes",
+    candy == "boxo_raisins" ~ "box_o_raisins",
+    candy == "blue_m_ms" ~ "m_ms_blue",
+    candy == "green_party_m_ms" ~ "m_ms_green",
+    candy == "independent_m_ms" ~ "m_ms",
+    candy == "mint_m_ms" ~ "m_ms_mint",
+    candy == "peanut_m_m_s" ~ "m_ms_peanut",
+    candy == "red_m_ms" ~ "m_ms_red",
+    candy == "regular_m_ms" ~ "m_ms",
+    candy == "third_party_m_ms" ~ "m_ms",
+    candy == "sweetums_a_friend_to_diabetes" ~ "sweetums",
+    candy == "jolly_rancher_bad_flavor" ~ "jolly_ranchers",
+    candy == "jolly_ranchers_good_flavor" ~ "jolly_ranchers",
+    candy == "bonkers_the_candy" ~ "bonkers",
+    
+    candy == "gummy_bears_straight_up" ~ "gummy_bears",
+    candy == "hershey_s_kissables" ~ "hersheys_kissables",
+    candy == "hershey_s_milk_chocolate" ~ "hersheys_milk_chocolate",
+    candy == "bonkers_the_candy" ~ "bonkers",
+    candy == "licorice_not_black" ~ "licorice",
+    candy == "licorice_yes_black" ~ "licorice",
+    candy == "smarties_american" ~ "smarties",
+    candy == "smarties_commonwealth" ~ "smarties",
+    candy == "tolberone_something_or_other" ~ "toblerone",
+    TRUE ~ candy
+  ))
+
+
+bb_candy_bind_candy_count_test <- bb_candy_bind_candy_removal %>%
+  distinct(candy) %>% 
+  summarise(n())
+bb_candy_bind_candy_count_test
+
+
+candy_counter <- bb_candy_bind_candy_removal %>% 
+  group_by(candy) %>% 
+  summarise(n())
+candy_counter
+
+```
+
+```{r}
+bb_candy_bind_only_ratings <- bb_candy_bind_candy_removal %>% 
+  drop_na(rating)
+```
+
+
