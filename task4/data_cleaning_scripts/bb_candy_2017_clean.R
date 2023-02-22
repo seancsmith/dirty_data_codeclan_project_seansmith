@@ -68,3 +68,6 @@ bb_candy_2017_order_cols <- bb_candy_2017_select %>%
          sort(colnames(.)))
 
 bb_candy_2017_clean <- bb_candy_2017_order_cols
+
+#write_csv(bb_candy_2017_clean, "data/clean_data/bb_candy_2017_clean.csv")
+

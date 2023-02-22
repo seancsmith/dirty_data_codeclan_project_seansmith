@@ -58,6 +58,6 @@ bb_candy_2016_order_cols <- bb_candy_2016_select %>%
 
 bb_candy_2016_clean <- bb_candy_2016_order_cols
 
-view(bb_candy_2016_clean)
+#write_csv(bb_candy_2016_clean, "data/clean_data/bb_candy_2016_clean.csv")
 
 
