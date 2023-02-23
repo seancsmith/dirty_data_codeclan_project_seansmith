@@ -34,8 +34,8 @@ bb_candy_2017_rename <- bb_candy_2017_age_numeric %>%
 
 # Create a year column and relocate
 bb_candy_2017_create_year <- bb_candy_2017_rename %>% 
-  cbind("year") %>%
-  clean_names() %>% 
+  # cbind("year") %>%
+  # clean_names() %>% 
   mutate(year = as.numeric(year),
          year = 2017) %>% 
   relocate(year, .after = internal_id)

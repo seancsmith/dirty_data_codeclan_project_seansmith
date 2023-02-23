@@ -23,7 +23,7 @@ cake_codes <- read_csv(here("data/raw_data/cake_ingredient_code.csv"))
 
 ## The Raw Data
 
-The *raw data* came in the form of two .csv files. Table 1 (cake_ingredients_1961.csv)  contains all the different types of cake with all of the `ingredient codes` as column headers. This file was in __wide format__ and filled with **NA values**. Table 2 (cake_ingredient_code) contains a list of ingredients and their correspongding _ingredient code_, as well as a measure column. The only thing missing from this table was the `measure` value for "Sour cream cup".
+The *raw data* came in the form of two .csv files. Table 1 (cake_ingredients_1961.csv)  contains all the different types of cake with all of the `ingredient codes` as column headers. This file was in __wide format__ and filled with **NA values**. Table 2 (cake_ingredient_code) contains a list of ingredients and their correspongding `ingredient code`, as well as a measure column. The only thing missing from this table was the `measure` value for "Sour cream cup".
 
 ## Assumptions
 
@@ -36,7 +36,7 @@ Another assumption I made about table 2 was that the *missing information* in th
 
 1. My first step was to pivot the table in to __long format__. I chose to do this rather than clean the column headers as I knew that it would be easier keeping them in upper-case to join the tables.
 
-2. I then decided that was the best time to get rid of _NA values_ so i used _drop_na_
+2. I then decided that was the best time to get rid of __NA values__ so i used __drop_na()__
 ```{r}
 cake_recipes_long <- cake_recipes %>%
      pivot_longer(cols = ("AE":"ZH"),
@@ -45,6 +45,7 @@ cake_recipes_long <- cake_recipes %>%
 
 cake_recipes_dropna <- cake_recipes_long %>%
   drop_na(quantity)
+cake_recipes_dropna
 ```
 
 3. Now seemed like the time to `join` the tables, clean the header names and select only the columns I required (get rid of the _ingredient code_).
@@ -63,32 +64,33 @@ cake_recipe_clean
 4. The last step in my cleaning process was dealing with the *missing information*. This was in the `measure` column corresponding to "Sour cream cup". As previously mentioned I removed the "cup" from the `ingredient` column and added it to the `measure` column.
 ```{r}
 cake_recipe_clean_sour <- cake_recipe_clean %>%
-  mutate(measure = coalesce(measure, "cup"))
-
-cake_recipe_clean_cup_remove <- cake_recipe_clean_sour %>%
+  mutate(measure = coalesce(measure, "cup")) %>% 
   mutate(ingredient = str_remove(ingredient, " cup"))
 
-cakes_cleaned <- cake_recipe_clean_cup_remove
+cakes_cleaned <- cake_recipe_clean_sour
 ```
 
 ## Task Analysis
 
-Read in cleaned data
+- Read in cleaned data
 ```{r}
 cakes <- read_csv(here("data/clean_data/cakes_clean.csv"))
 ```
 
-1. Which cake has the most cocoa in it?
+___1. Which cake has the most cocoa in it?___
+
+- The `One Bowl Chocolate` cake has the most `Cocoa` in it by far.
 ```{r}
 most_cocoa_cake <- cakes %>%
   filter(ingredient == "Cocoa") %>%
   slice_max(quantity)
 most_cocoa_cake
 ```
-- The `One Bowl Chocolate` cake has the most `Cocoa` in it by far.
 
 
-2. For sponge cake, how many cups of ingredients are used in total?
+___2. For sponge cake, how many cups of ingredients are used in total?___
+
+- Filter by _Sponge_ and _cup_ and then find the total of those values, which gives us 3.5 cups.
 ```{r}
 sponge_cake_test <- cakes %>% 
   filter(cake == "Sponge",
@@ -96,10 +98,10 @@ sponge_cake_test <- cakes %>%
   summarise(total_quantity = sum(quantity))
 sponge_cake_test
 ```
-- Filter by _Sponge_ and _cup_ and then find the total of those values, which gives us 3.5 cups.
 
+___3. How many ingredients are measured in teaspoons?___
 
-3. How many ingredients are measured in teaspoons?
+- Filter by _teaspoon_ and use the **distinct()** function to find all of the individual ingredients that are measured in teaspoons.
 ```{r}
 n_in_teaspoons <- cakes %>% 
   filter(measure == "teaspoon") %>% 
@@ -107,10 +109,10 @@ n_in_teaspoons <- cakes %>%
   summarise(n_ingredients_teaspoon = n())
 n_in_teaspoons
 ```
-- Filter by _teaspoon_ and use the **distinct()** function to find all of the individual ingredients that are measured in teaspoons.
 
+___4. Which cake has the most unique ingredients?___
 
-4. Which cake has the most unique ingredients?
+- On finding the sum of the ingredients for each cake I discovered that both the `Babas au Rhum` and `One Bowl Chocolate` both contained 11 ingredients. Which was the highest number of ingredients of all of the cakes.
 ```{r}
 most_unique_ingred <- cakes %>% 
   group_by(cake) %>% 
@@ -119,10 +121,10 @@ most_unique_ingred <- cakes %>%
   head(2)
 most_unique_ingred
 ```
-- On finding the sum of the ingredients for each cake I discovered that both the `Babas au Rhum` and `One Bowl Chocolate` both contained 11 ingredients. Which was the highest number of ingredients of all of the cakes.
 
+___5. Which ingredients are used only once?___
 
-5. Which ingredients are used only once?
+- **Grouped by** ingredients and then counted how many times each one occurs. I then filtered to show all of the ingredients which occured only once.
 ```{r}
 ingredients_once <- cakes %>% 
   group_by(ingredient) %>% 
@@ -131,4 +133,14 @@ ingredients_once <- cakes %>%
   select(ingredient, times_used)
 ingredients_once
 ```
-- **Grouped by** ingredients and then counted how many times each one occurs. I then filtered to show all of the ingredients which occured only once.
+
+```{r}
+cakes_w_grams <- cakes %>% 
+  distinct(ingredient) 
+
+```
+
+- Recipe with lowest salt
+
+- Recipe with no dairy, cream, cheese, milk, butter, shortening, chocolate, cottage cheese, 
+-gluten free, flour, baking powder, zweibach
