@@ -142,5 +142,13 @@ cakes_w_grams <- cakes %>%
 
 - Recipe with lowest salt
 
+```{r}
+recipe_with_least_salt <- cakes %>% 
+  if (ingredient != "Salt") {
+    print("This has no salt")
+  }
+```
+
+
 - Recipe with no dairy, cream, cheese, milk, butter, shortening, chocolate, cottage cheese, 
 -gluten free, flour, baking powder, zweibach

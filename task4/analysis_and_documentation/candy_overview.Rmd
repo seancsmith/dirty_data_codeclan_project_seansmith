@@ -6,12 +6,12 @@ output: html_notebook
 ```{r}
 library(tidyverse)
 library(here)
+library(ggplot2)
 ```
 
 ```{r}
 # Read in the cleaned data
 bb_candy_bind_clean <- read_csv(here("data/clean_data/bb_candy_bind_clean.csv"))
-view(bb_candy_bind_clean)
 ```
 
 # Boing Boing Candy Analysis
@@ -106,7 +106,7 @@ starburst_despair
 
 ___For the next three questions, count despair as -1, joy as +1, and meh as 0___
 
-- First I created a new column called `rating_no` which gave a value to each of the 3 different ratings. 
+- First I created a new column called `rating_no` which gave a value to each of the 3 different ratings. The *sum* of this will give us an excellent indication of what people think of the candy, by *upvoting* for **joy** and *downvoting* for **despair**. I will call this calculation `joy_vs_despair_rating`.
 ```{r}
 bb_candy_bind_rating_system <- bb_candy_bind_clean %>% 
   mutate(rating_no = case_when(
@@ -124,21 +124,20 @@ ___6. What was the most popular candy bar by this rating system for each gender 
 ```{r}
 bb_candy_all_gender_favs <- bb_candy_bind_rating_system %>% 
   group_by(candy, gender) %>%
-  summarise(sum_rating = sum(rating_no)) %>% 
+  summarise(joy_vs_despair_rating = sum(rating_no)) %>% 
   group_by(gender) %>% 
-  slice_max(sum_rating)
+  slice_max(joy_vs_despair_rating)
 bb_candy_all_gender_favs
 ```
-
 ___7. What was the most popular candy bar in each year?___
 
 - Similar to the previous analysis, I **grouped_by** `candy` and `year` to find the `sum_rating` of the `rating_no`. I then grouped again by year and used **slice_max()** to give me the most popular candy bar from each year.
 ```{r}
 bb_candy_most_pop_by_year <- bb_candy_bind_rating_system %>% 
   group_by(candy, year) %>%
-  summarise(sum_rating = sum(rating_no)) %>% 
+  summarise(joy_vs_despair_rating = sum(rating_no)) %>% 
   group_by(year) %>% 
-  slice_max(sum_rating)
+  slice_max(joy_vs_despair_rating)
 bb_candy_most_pop_by_year
 ```
 
@@ -148,14 +147,97 @@ ___8. What was the most popular candy bar by this rating for people in US, Canad
 ```{r}
 bb_candy_country_favs <- bb_candy_bind_rating_system %>% 
   group_by(candy, country) %>%
-  summarise(sum_rating = sum(rating_no)) %>% 
+  summarise(joy_vs_despair_rating = sum(rating_no)) %>% 
   group_by(country) %>% 
-  slice_max(sum_rating)
+  slice_max(joy_vs_despair_rating)
 bb_candy_country_favs
 ```
 
 
-most/least popular candy for above and below mean age
+## Extra Analysis
 
-most pop variety of m_ms
+___What type of `m&m's` have the most ratings?___
+
+- I noticed in the data that there were a lot of different types of m&m's and I decided not to group them together as they are a stand alone packet of candy. I thought it would then be interesting to find out what m&m's got the most `ratings` and also what brought the most **joy**.
+
+```{r}
+bb_candy_most_rated_m_ms <- bb_candy_bind_rating_system %>% 
+  mutate(m_ms = str_detect(candy, "m_ms.")) %>%
+  filter(m_ms == TRUE) %>% 
+  group_by(candy) %>% 
+  summarise(m_ms_ratings = n()) %>% 
+  arrange(desc(m_ms_ratings))
+bb_candy_most_rated_m_ms
+```
+- We can see here that peanut m&m's (m_ms_peanut) has the most `ratings` and also the highest `joy_vs_despair_rating`.
+
+```{r}
+bb_candy_most_pop_m_ms <- bb_candy_bind_rating_system %>% 
+  mutate(m_ms = str_detect(candy, "m_ms.")) %>%
+  filter(m_ms == TRUE) %>% 
+  group_by(candy) %>% 
+  summarise(joy_vs_despair_rating = sum(rating_no)) %>% 
+  slice_max(joy_vs_despair_rating)
+bb_candy_most_pop_m_ms
+```
+
+
+- I then thought the only way to find a fair representation of people's feelings towards m&m's was to work out what proportion of each type brought `joy`. Here we can see that 78% of the Peanut M&M's brought joy, confirming their place as the most favourite M&M. This also showed us that public opinion is very much divided on the Mint M&M's, with 49% brining `joy`.
+
+```{r}
+bb_candy_joy_proportion <- bb_candy_bind_rating_system %>% 
+  mutate(m_ms = str_detect(candy, "m_ms.")) %>%
+  filter(m_ms == TRUE) %>% 
+  group_by(candy) %>%
+  mutate(rating_count = n()) %>%
+  filter(rating == "joy") %>% 
+  mutate(joy_sum = sum(rating_no), 
+         joy_prop = round((joy_sum/rating_count), 2)) %>% 
+  distinct(candy, joy_prop) %>% 
+  arrange(desc(joy_prop))
+bb_candy_joy_proportion
+```
+
+```{r}
+
+x_labels <- c("Peanut", "Blue", "Green", "Red", "Mint")
+joy_prop_graph <- ggplot(bb_candy_joy_proportion, 
+                         aes(x = x_labels, y = joy_prop)) +
+  geom_bar(stat ="identity", 
+           color = "black", 
+           fill = c("yellow", "blue", "green", "red", "light green")) + ggtitle("Proportion of M&M's which were rated 'joy'") + 
+  xlab("Type of M&M") + 
+  ylab("Proportion") +
+  ylim(0, 1)
+joy_prop_graph
+```
+
+
+- Using the `rating system` to calulate the `joy_vs_despair_rating` for each type of M&M we can see that the Mint M&M's must have brought a lot of *despair* to lower their `joy_vs_despair_rating` to -88.
+
+```{r}
+bb_candy_most_rated_m_ms <- bb_candy_bind_rating_system %>% 
+  mutate(m_ms = str_detect(candy, "m_ms.")) %>%
+  filter(m_ms == TRUE) %>% 
+  group_by(candy) %>% 
+  summarise(m_ms_ratings = n(), joy_vs_despair_rating = sum(rating_no)) %>% 
+  arrange(desc(m_ms_ratings))
+bb_candy_most_rated_m_ms
+```
+
+# ```{r}
+# bb_candy_mean_age_favs <- bb_candy_bind_rating_system %>% 
+#   filter(going_trick_or_treating == "Yes") %>% 
+#   drop_na(age) %>% 
+#   mutate(less_than_20 = age > 60) %>%
+#   group_by(candy, less_than_20) %>% 
+#   summarise(joy_vs_despair_rating = sum(rating_no)) %>% 
+#   filter(less_than_20 == TRUE) %>% 
+#   arrange(desc(joy_vs_despair_rating))
+#   
+#   bb_candy_mean_age_favs
+
+
+
+
 

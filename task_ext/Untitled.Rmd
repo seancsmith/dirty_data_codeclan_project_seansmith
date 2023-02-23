@@ -1,0 +1,17 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+```{r}
+library(tidyverse)
+
+```
+
+```{r}
+rwa_data <- read_csv("rwa.csv")
+
+glimpse(rwa_data)
+
+dim(rwa_data)
+```
+
