@@ -1,0 +1,134 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+library(janitor)
+library(ggplot2)
+```
+
+```{r}
+dog_survey <- read_csvdog_survey.csv")
+```
+
+```{r}
+glimpse(dog_survey)
+```
+
+```{r}
+dog_survey_select <- dog_survey %>% 
+  select(-...10, -...11) %>% 
+  clean_names()
+
+dog_age_numeric <- dog_survey_select %>% 
+  mutate(dog_age = as.numeric(dog_age))
+
+dog_survey_spend_on_food <- dog_age_numeric %>% 
+  rename("spend_on_food" = amount_spent_on_dog_food) %>% 
+  mutate(spend_on_food = str_remove_all(spend_on_food, "£"),
+         spend_on_food = as.numeric(spend_on_food))
+```
+
+```{r}
+dog_survey_remove_dupes <- dog_survey_spend_on_food %>% 
+  mutate(dog_dupes = duplicated(dog_survey_spend_on_food)) %>% 
+  filter(dog_dupes == FALSE) %>% 
+  select(-dog_dupes)
+```
+
+```{r}
+dog_survey_gender <- dog_survey_remove_dupes %>% 
+  mutate(dog_gender = str_to_lower(dog_gender)) %>% 
+  mutate(dog_gender = case_when(
+    dog_gender == "m" ~ "male",
+    dog_gender == "f" ~ "female"))
+  
+dog_gender_na <- dog_survey_gender %>% 
+  mutate(dog_gender = coalesce(dog_gender, "unknown"))
+```
+
+
+
+```{r}
+dog_survey_size_clean <- dog_gender_na %>% 
+  mutate(dog_size = str_to_lower(dog_size)) %>% 
+  mutate(dog_size = case_when(
+    dog_size == "xs" ~ dog_size,
+    dog_size == "s" ~ dog_size,
+    dog_size == "m" ~ dog_size,
+    dog_size == "l" ~ dog_size,
+    dog_size == "xl" ~ dog_size
+  ))
+```
+
+Analysis Question 1
+1. The client only counts a valid email address as one ending in ‘.com’. How many survey results have a valid email address.
+
+```{r}
+dog_survey_valid_email <- dog_survey_size_clean %>% 
+  mutate(valid_email = str_detect(email, "\\.com"), .after = email) %>% 
+  filter(valid_email == TRUE) %>% 
+  summarise(n_valid_emails = n())
+
+dog_survey_valid_email
+```
+
+2. What’s the average amount spent on dog food for each dog size.
+
+```{r}
+
+dog_survey_avg_spend <- dog_survey_size_clean %>% 
+  drop_na(spend_on_food) %>% 
+  group_by(dog_size) %>% 
+  summarise(avg_spend = round(mean(spend_on_food), 2))
+dog_survey_avg_spend
+
+```
+
+3. For owners whose surname starts with a letter in the second half of the alphabet (N onwards) what is the average age of their dog?
+
+
+```{r}
+dog_survey_surname <- dog_survey_size_clean %>% 
+  mutate(last_name = str_to_title(last_name)) %>% 
+  filter(str_detect(last_name, "^[N-Z]"))
+dog_survey_surname
+```
+
+4. The dog_age column is the age in dog years. If the conversion is 1 human year = 6 dog years, then what is the average human age for dogs of each gender?
+```{r}
+dog_survey_human_age <- dog_survey_size_clean %>% 
+  drop_na(dog_age) %>% 
+  mutate(human_age = dog_age /6) %>% 
+  group_by(dog_gender) %>% 
+  summarise(dog_years = round(mean(dog_age), 2),
+            human_years = round(mean(human_age),2))
+dog_survey_human_age
+
+
+dog_pivot <- dog_survey_human_age %>% 
+  pivot_longer(cols = 2:3,
+               names_to = "dog_vs_human",
+               values_to = "avg_age")
+
+
+dog_ages_plot <- ggplot(dog_pivot, 
+       aes(x = dog_gender,
+           y= avg_age,
+           fill= dog_vs_human)) + 
+  geom_bar(stat="identity", position=position_dodge()) +
+  ggtitle("average dog age by gender, in human and dog years") +
+  xlab("Gender") +
+  ylab("Average Age") +
+  geom_text(aes(label = avg_age), 
+            colour="black", 
+            size=3.5, 
+            nudge_x = 0.1, 
+            nudge_y = 1)
+dog_ages_plot
+```
+
+
+

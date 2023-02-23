@@ -28,7 +28,8 @@ My first assumption was that I would have to trim off the multiple columns which
 
 I have four .R scripts containing all of my cleaning data. I have one for each one of the years (2015, 2016, 2017), then a final cleaning script with all of the data in one table (bb_candy_bind_clean.csv). At the end of this script I wrote the final cleaned table to a `.csv` file ready for analysis. Here is an overview of my cleaning steps.
 
-- ***Cleaning processes for bb_candy_2015, 2016 & 2017***
+**Cleaning processes for bb_candy_2015, 2016 & 2017**
+
 - Read in the .xlsx file and assign it
 - Use the `clean_names()` function to tidy up the column headers
 - Use `rename()` and `str_remove()` to further tidy up column names
@@ -36,7 +37,8 @@ I have four .R scripts containing all of my cleaning data. I have one for each o
 - Amend the date as we only required the **year** for analysis
 - Remove all of the columns which we do not require
 
- ***Cleaning processes for bb_candy_bind_clean.R***
+ **Cleaning processes for bb_candy_bind_clean.R**
+ 
 - Read in the separate years
 - Connect the data using `bind_rows()`
 - Tidy the **countries** all together
@@ -143,7 +145,7 @@ bb_candy_most_pop_by_year
 
 ___8. What was the most popular candy bar by this rating for people in US, Canada, UK, and all other countries?___
 
-- Again, similar to the previous analysis. I had to **group_by** twice to give me the result above. Interestingly enough this shows a three way tie between `lindt_truffle`, `rolos` and `toblerone` as the uk's favourite candy!
+- Again, similar to the previous analysis. I had to **group_by** twice to give me the result above. Interestingly enough this shows a three way tie between `lindt_truffle`, `rolos` and `toblerone` as the UK's favourite candy!
 ```{r}
 bb_candy_country_favs <- bb_candy_bind_rating_system %>% 
   group_by(candy, country) %>%
@@ -158,7 +160,7 @@ bb_candy_country_favs
 
 ___What type of `m&m's` have the most ratings?___
 
-- I noticed in the data that there were a lot of different types of m&m's and I decided not to group them together as they are a stand alone packet of candy. I thought it would then be interesting to find out what m&m's got the most `ratings` and also what brought the most **joy**.
+- I noticed in the data that there were a lot of different types of M&Ms and I decided not to group them together as they are a stand alone product. I thought it would then be interesting to find out which M&Ms got the most `ratings` and also what brought the most **joy**.
 
 ```{r}
 bb_candy_most_rated_m_ms <- bb_candy_bind_rating_system %>% 
@@ -169,7 +171,7 @@ bb_candy_most_rated_m_ms <- bb_candy_bind_rating_system %>%
   arrange(desc(m_ms_ratings))
 bb_candy_most_rated_m_ms
 ```
-- We can see here that peanut m&m's (m_ms_peanut) has the most `ratings` and also the highest `joy_vs_despair_rating`.
+- We can see here that Peanut M&Ms (m_ms_peanut) have the most `ratings` and also the highest `joy_vs_despair_rating`.
 
 ```{r}
 bb_candy_most_pop_m_ms <- bb_candy_bind_rating_system %>% 
@@ -182,7 +184,7 @@ bb_candy_most_pop_m_ms
 ```
 
 
-- I then thought the only way to find a fair representation of people's feelings towards m&m's was to work out what proportion of each type brought `joy`. Here we can see that 78% of the Peanut M&M's brought joy, confirming their place as the most favourite M&M. This also showed us that public opinion is very much divided on the Mint M&M's, with 49% brining `joy`.
+- I then thought the only way to find a fair representation of people's feelings towards M&Ms was to work out what proportion of each type brought `joy`. Here we can see that 78% of the Peanut M&Ms brought joy, confirming their place as the most favourite M&M. This also showed us that public opinion is very much divided on the Mint M&Ms, with 49% voting `joy`.
 
 ```{r}
 bb_candy_joy_proportion <- bb_candy_bind_rating_system %>% 
@@ -213,31 +215,4 @@ joy_prop_graph
 ```
 
 
-- Using the `rating system` to calulate the `joy_vs_despair_rating` for each type of M&M we can see that the Mint M&M's must have brought a lot of *despair* to lower their `joy_vs_despair_rating` to -88.
-
-```{r}
-bb_candy_most_rated_m_ms <- bb_candy_bind_rating_system %>% 
-  mutate(m_ms = str_detect(candy, "m_ms.")) %>%
-  filter(m_ms == TRUE) %>% 
-  group_by(candy) %>% 
-  summarise(m_ms_ratings = n(), joy_vs_despair_rating = sum(rating_no)) %>% 
-  arrange(desc(m_ms_ratings))
-bb_candy_most_rated_m_ms
-```
-
-# ```{r}
-# bb_candy_mean_age_favs <- bb_candy_bind_rating_system %>% 
-#   filter(going_trick_or_treating == "Yes") %>% 
-#   drop_na(age) %>% 
-#   mutate(less_than_20 = age > 60) %>%
-#   group_by(candy, less_than_20) %>% 
-#   summarise(joy_vs_despair_rating = sum(rating_no)) %>% 
-#   filter(less_than_20 == TRUE) %>% 
-#   arrange(desc(joy_vs_despair_rating))
-#   
-#   bb_candy_mean_age_favs
-
-
-
-
-
+- Using the `rating system` to calulate the `joy_vs_despair_rating` for each type of M&M we can see that the Mint M&Ms must have brought a lot of *despair* to lower their `joy_vs_despair_rating` to -88.

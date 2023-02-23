@@ -27,7 +27,7 @@ The *raw data* came in the form of two .csv files. Table 1 (cake_ingredients_196
 
 ## Assumptions
 
-My first assumption was that I would have to change the format of Table 1 to __long format__. This would make it easier to see which ingredients were required for each cake. I could see there were many _NA values_ in this table and I was assuming that these ingredients were not required for the corresponding cake, as oppose to *missing information*. The brief states that the full ingredient name is required and not just the `ingredient code`. So I thought the best way to approach this is to **join** the tables using the `ingredient code`. 
+My first assumption was that I would have to change the format of Table 1 to __long format__. This would make it easier to see which ingredients were required for each cake. I could see there were many __NA values__ in this table and I was assuming that these ingredients were not required for the corresponding cake, as oppose to *missing information*. The brief states that the full ingredient name is required and not just the `ingredient code`. So I thought the best way to approach this is to **join** the tables using the `ingredient code`. 
 
 Another assumption I made about table 2 was that the *missing information* in the `measure` column was meant to be "cup". I assumed that the `ingredient` listed was meant to be "Sour cream" and the `measure` was meant to be "cup". Rather than the ingredient being "Sour cream cup".
 
@@ -48,6 +48,7 @@ cake_recipes_dropna <- cake_recipes_long %>%
 cake_recipes_dropna
 ```
 
+
 3. Now seemed like the time to `join` the tables, clean the header names and select only the columns I required (get rid of the _ingredient code_).
 ```{r}
  cake_recipes_full <- cake_recipes_dropna %>%
@@ -61,13 +62,17 @@ cake_recipe_clean <- cake_recipes_full_clean %>%
 cake_recipe_clean
 ```
 
+
 4. The last step in my cleaning process was dealing with the *missing information*. This was in the `measure` column corresponding to "Sour cream cup". As previously mentioned I removed the "cup" from the `ingredient` column and added it to the `measure` column.
 ```{r}
 cake_recipe_clean_sour <- cake_recipe_clean %>%
   mutate(measure = coalesce(measure, "cup")) %>% 
   mutate(ingredient = str_remove(ingredient, " cup"))
 
-cakes_cleaned <- cake_recipe_clean_sour
+cake_recipe_ingredients_lower <- cake_recipe_clean_sour %>% 
+  mutate(ingredient = str_to_lower(ingredient))
+
+cakes_cleaned <- cake_recipe_ingredients_lower
 ```
 
 ## Task Analysis
@@ -79,7 +84,7 @@ cakes <- read_csv(here("data/clean_data/cakes_clean.csv"))
 
 ___1. Which cake has the most cocoa in it?___
 
-- The `One Bowl Chocolate` cake has the most `Cocoa` in it by far.
+- The `One Bowl Chocolate` cake has the most `Cocoa` in it.
 ```{r}
 most_cocoa_cake <- cakes %>%
   filter(ingredient == "Cocoa") %>%
@@ -90,7 +95,7 @@ most_cocoa_cake
 
 ___2. For sponge cake, how many cups of ingredients are used in total?___
 
-- Filter by _Sponge_ and _cup_ and then find the total of those values, which gives us 3.5 cups.
+- Filtered by _Sponge_ and _cup_ and then find the total of those values, which gives us 3.5 cups.
 ```{r}
 sponge_cake_test <- cakes %>% 
   filter(cake == "Sponge",
@@ -98,6 +103,7 @@ sponge_cake_test <- cakes %>%
   summarise(total_quantity = sum(quantity))
 sponge_cake_test
 ```
+
 
 ___3. How many ingredients are measured in teaspoons?___
 
@@ -134,21 +140,24 @@ ingredients_once <- cakes %>%
 ingredients_once
 ```
 
-```{r}
-cakes_w_grams <- cakes %>% 
-  distinct(ingredient) 
+## Extra Analysis
 
+- Here I have created a `logical` column stating wether or not the ingredient contains dairy. I have then used this to find out which of the cakes are __dairy free__.
+```{r}
+cakes_contains_dairy <- cakes %>% 
+  mutate(contains_dairy = case_when(
+    ingredient == "butter" ~ TRUE,
+    ingredient == "milk" ~ TRUE,
+    ingredient == "chocolate" ~ TRUE,
+    ingredient == "cottage cheese" ~ TRUE,
+    ingredient == "sour cream" ~ TRUE,
+    ingredient == "heavy cream" ~ TRUE,
+    TRUE ~ FALSE))
+
+cake_dairy_free <- cakes_contains_dairy %>% 
+  group_by(cake) %>%
+  summarise(n_ingredients_containing_dairy = sum(contains_dairy)) %>% 
+  filter(n_ingredients_containing_dairy == 0)
+cake_dairy_free
 ```
 
-- Recipe with lowest salt
-
-```{r}
-recipe_with_least_salt <- cakes %>% 
-  if (ingredient != "Salt") {
-    print("This has no salt")
-  }
-```
-
-
-- Recipe with no dairy, cream, cheese, milk, butter, shortening, chocolate, cottage cheese, 
--gluten free, flour, baking powder, zweibach

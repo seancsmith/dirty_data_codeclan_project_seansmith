@@ -7,7 +7,7 @@ library(readxl)
 library(lubridate)
 library(stringr)
 
-bb_candy_2016 <- read_xlsx("data/raw_data/boing-boing-candy-2016.xlsx")
+bb_candy_2016 <- read_xlsx(here("data/raw_data/boing-boing-candy-2016.xlsx"))
 
 # Clean names
 bb_candy_2016_clean_names <- bb_candy_2016 %>% 
@@ -54,7 +54,4 @@ bb_candy_2016_order_cols <- bb_candy_2016_select %>%
          -person_of_interest_season_3_dvd_box_set_not_including_disc_4_with_hilarious_outtakes)
 
 bb_candy_2016_clean <- bb_candy_2016_order_cols
-
-#write_csv(bb_candy_2016_clean, "data/clean_data/bb_candy_2016_clean.csv")
-
 

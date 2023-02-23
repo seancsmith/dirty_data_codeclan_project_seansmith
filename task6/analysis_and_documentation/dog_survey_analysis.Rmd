@@ -1,0 +1,91 @@
+---
+title: "Dog Survey Analysis"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+library(janitor)
+library(ggplot2)
+library(here)
+```
+
+```{r}
+dog_survey_clean <- read_csv(here("data/clean_data/dog_survey_clean.csv"))
+```
+# Dog Survey Analysis
+
+## The Raw Data
+
+## Assumptions
+
+## Cleaning Process Overview
+
+
+Analysis Question 1
+1. The client only counts a valid email address as one ending in ‘.com’. How many survey results have a valid email address.
+
+```{r}
+dog_survey_valid_email <- dog_survey_size_clean %>% 
+  mutate(valid_email = str_detect(email, "\\.com"), .after = email) %>% 
+  filter(valid_email == TRUE) %>% 
+  summarise(n_valid_emails = n())
+
+dog_survey_valid_email
+```
+
+2. What’s the average amount spent on dog food for each dog size.
+
+```{r}
+
+dog_survey_avg_spend <- dog_survey_size_clean %>% 
+  drop_na(spend_on_food) %>% 
+  group_by(dog_size) %>% 
+  summarise(avg_spend = round(mean(spend_on_food), 2))
+dog_survey_avg_spend
+
+```
+
+3. For owners whose surname starts with a letter in the second half of the alphabet (N onwards) what is the average age of their dog?
+
+
+```{r}
+dog_survey_surname <- dog_survey_size_clean %>% 
+  mutate(last_name = str_to_title(last_name)) %>% 
+  filter(str_detect(last_name, "^[N-Z]"))
+dog_survey_surname
+```
+
+4. The dog_age column is the age in dog years. If the conversion is 1 human year = 6 dog years, then what is the average human age for dogs of each gender?
+```{r}
+dog_survey_human_age <- dog_survey_size_clean %>% 
+  drop_na(dog_age) %>% 
+  mutate(human_age = dog_age /6) %>% 
+  group_by(dog_gender) %>% 
+  summarise(dog_years = round(mean(dog_age), 2),
+            human_years = round(mean(human_age),2))
+dog_survey_human_age
+
+
+dog_pivot <- dog_survey_human_age %>% 
+  pivot_longer(cols = 2:3,
+               names_to = "dog_vs_human",
+               values_to = "avg_age")
+
+
+dog_ages_plot <- ggplot(dog_pivot, 
+       aes(x = dog_gender,
+           y= avg_age,
+           fill= dog_vs_human)) + 
+  geom_bar(stat="identity", position=position_dodge()) +
+  ggtitle("average dog age by gender, in human and dog years") +
+  xlab("Gender") +
+  ylab("Average Age") +
+  geom_text(aes(label = avg_age), 
+            colour="black", 
+            size=3.5, 
+            nudge_x = 0.1, 
+            nudge_y = 1)
+dog_ages_plot
+```
+

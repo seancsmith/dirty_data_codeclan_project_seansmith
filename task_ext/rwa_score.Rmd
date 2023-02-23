@@ -1,0 +1,55 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+```{r}
+library(tidyverse)
+library(janitor)
+
+```
+
+```{r}
+rwa_data <- read_csv("rwa.csv")
+
+glimpse(rwa_data)
+
+dim(rwa_data)
+```
+# Clean the column headers
+```{r}
+rwa_data_clean_names <- rwa_data %>% 
+  clean_names()
+```
+
+# Add an "id" column
+```{r}
+rwa_data_with_id <- rwa_data_clean_names %>% 
+  rownames_to_column("id")
+```
+
+```{r}
+# rwa_data_pivot1 <- rwa_data_with_id %>% 
+#   pivot_longer(cols = ("q1":"q22"),
+#                names_to = "question",
+#                values_to = "answer")
+#                
+#                
+# rwa_data_pivot2 <- rwa_data_pivot1 %>% 
+#   pivot_longer(cols = ("e1":"e22"),
+#                names_to = "question_time",
+#                values_to = "time")
+
+```
+
+```{r}
+
+reverse_questions <- rwa_data_with_id$q1
+
+calc_rwa_score <- rwa_data_with_id %>% 
+  mutate(reverse_questions = case_when(
+    reverse_questions == 4 ~ 1,
+    TRUE ~ reverse_questions))
+
+calc_rwa_score
+```
+

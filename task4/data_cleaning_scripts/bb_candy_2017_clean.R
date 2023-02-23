@@ -8,13 +8,14 @@ library(lubridate)
 library(stringr)
 
 # Read in data
-bb_candy_2017 <- read_xlsx("data/raw_data/boing-boing-candy-2017.xlsx")
+bb_candy_2017 <- read_xlsx(here("data/raw_data/boing-boing-candy-2017.xlsx"))
 
 
 # Clean names
 bb_candy_2017_clean_names <- bb_candy_2017 %>% 
   clean_names()
 
+# Tidy the column headers
 bb_candy_2017_remove_q <- bb_candy_2017_clean_names %>% 
   names() %>% 
   str_remove("q[0-9]+_")
@@ -34,10 +35,7 @@ bb_candy_2017_rename <- bb_candy_2017_age_numeric %>%
 
 # Create a year column and relocate
 bb_candy_2017_create_year <- bb_candy_2017_rename %>% 
-  # cbind("year") %>%
-  # clean_names() %>% 
-  mutate(year = as.numeric(year),
-         year = 2017) %>% 
+  mutate(year = 2017) %>% 
   relocate(year, .after = internal_id)
 
 # Select columns required
@@ -68,6 +66,3 @@ bb_candy_2017_order_cols <- bb_candy_2017_select %>%
          sort(colnames(.)))
 
 bb_candy_2017_clean <- bb_candy_2017_order_cols
-
-#write_csv(bb_candy_2017_clean, "data/clean_data/bb_candy_2017_clean.csv")
-

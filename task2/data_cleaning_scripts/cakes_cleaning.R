@@ -50,9 +50,12 @@ cake_recipe_clean_sour <- cake_recipe_clean %>%
   mutate(measure = coalesce(measure, "cup")) %>% 
   mutate(ingredient = str_remove(ingredient, " cup"))
 
+# Make all ingredients lower case
+cake_recipe_ingredients_lower <- cake_recipe_clean_sour %>% 
+  mutate(ingredient = str_to_lower(ingredient))
 
 # Data is now fully clean
-cakes_cleaned <- cake_recipe_clean_sour
+cakes_cleaned <- cake_recipe_ingredients_lower
 
 # Rrite to .csv and save in clean data
 write_csv(cakes_cleaned, "data/clean_data/cakes_clean.csv")
