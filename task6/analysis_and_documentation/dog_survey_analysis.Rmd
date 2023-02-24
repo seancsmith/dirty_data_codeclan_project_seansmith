@@ -17,16 +17,36 @@ dog_survey_clean <- read_csv(here("data/clean_data/dog_survey_clean.csv"))
 
 ## The Raw Data
 
+The _raw data_ came in the form of a `.csv` file (dog_survey.csv). This contained information about the dog owner as well as some information about the dog - `age`, `gender`, `size`. Aside from the 2 empty columns at the end there was not a lot of _missing data_. Possibly some people not wanting to reveal how much they spend on dog food.
+
+### Additional Data for Further Analysis
+
+It could be useful to have more data on costs involved with the dog. Such as vet bills or grooming bills. If I had this data I could carry out further analysis on the total cost of having a dog.
+
 ## Assumptions
+
+I assumed that the `dog_age` and `amount_spend_on_dog_food` should be numerical fields, they were initialy of type _character_. This would be required for any statistical analysis. 
 
 ## Cleaning Process Overview
 
+I have a `.R script` containing my whole cleaning process (dog_survey_cleaning.R). I wrote the final cleaned table to a `.csv` file (dog_survey_clean.csv), which has been read in at the top of this document. Here is an overview of my cleaning steps.
 
-Analysis Question 1
-1. The client only counts a valid email address as one ending in ‘.com’. How many survey results have a valid email address.
+- Read in _raw data_
+- Remove empty columns
+- _Clean_ the column header names
+- Change the `dog_age` and `spend_on_food` columns to numeric
+- Remove any **duplicated** data
+- _Clean_ up the data inside the `dog_gender` and `dog_size` columns so that only certain values are allowed
+- write the final data to a `.csv`
 
+
+## Task Analysis
+
+___1. The client only counts a valid email address as one ending in ‘.com’. How many survey results have a valid email address.___
+
+- The **filter** looks for any email addresses ending in ".com" and assigns them as `TRUE`. I then counted that number of email addresses, which gave us 187.
 ```{r}
-dog_survey_valid_email <- dog_survey_size_clean %>% 
+dog_survey_valid_email <- dog_survey_clean %>% 
   mutate(valid_email = str_detect(email, "\\.com"), .after = email) %>% 
   filter(valid_email == TRUE) %>% 
   summarise(n_valid_emails = n())
@@ -34,11 +54,12 @@ dog_survey_valid_email <- dog_survey_size_clean %>%
 dog_survey_valid_email
 ```
 
-2. What’s the average amount spent on dog food for each dog size.
+___2. What’s the average amount spent on dog food for each dog size.___
 
+- This shows that surprisingly the smaller the dog, the more people spend on dog food. This could be due to the fact people are feeding their smaller dogs premium food. We can see that the highest average spend on dog food is from people who have not disclosed the size of their dog. The reason for this could be that they are spending very large amounts on dog food, possibly for their large dogs.
 ```{r}
 
-dog_survey_avg_spend <- dog_survey_size_clean %>% 
+dog_survey_avg_spend <- dog_survey_clean %>% 
   drop_na(spend_on_food) %>% 
   group_by(dog_size) %>% 
   summarise(avg_spend = round(mean(spend_on_food), 2))
@@ -46,39 +67,47 @@ dog_survey_avg_spend
 
 ```
 
-3. For owners whose surname starts with a letter in the second half of the alphabet (N onwards) what is the average age of their dog?
+___3. For owners whose surname starts with a letter in the second half of the alphabet (N onwards) what is the average age of their dog?___
 
-
+- I have **filtered** the `last_name` column to only give us names starting with "N-Z". Then found the **average** age of their dog (in dog years). This is 53.3.
 ```{r}
-dog_survey_surname <- dog_survey_size_clean %>% 
+dog_survey_surname <- dog_survey_clean %>% 
   mutate(last_name = str_to_title(last_name)) %>% 
-  filter(str_detect(last_name, "^[N-Z]"))
+  filter(str_detect(last_name, "^[N-Z]")) %>%
+  drop_na(dog_age) %>% 
+  summarise(avg_dog_age = round(mean(dog_age), 2))
 dog_survey_surname
 ```
 
-4. The dog_age column is the age in dog years. If the conversion is 1 human year = 6 dog years, then what is the average human age for dogs of each gender?
+___4. The dog_age column is the age in dog years. If the conversion is 1 human year = 6 dog years, then what is the average human age for dogs of each gender?___
+
+- Here I have calculated the `human_age` by taking the number in `dog_years` and dividing it by 6. I then worked out the **average** age in `dog_years` and `human_years` for each gender. This shows that the average `male` dogs used for this survey were slightly older than the average `female`.
 ```{r}
-dog_survey_human_age <- dog_survey_size_clean %>% 
+dog_survey_human_age <- dog_survey_clean %>% 
   drop_na(dog_age) %>% 
   mutate(human_age = dog_age /6) %>% 
   group_by(dog_gender) %>% 
   summarise(dog_years = round(mean(dog_age), 2),
             human_years = round(mean(human_age),2))
 dog_survey_human_age
+```
 
+___5. Create a plot of results of question 4.___
 
+- Here I have **plotted** the average `dog_age` by `gender` (in dog years and human years). This shows the males being slightly older than the females but not quite as old as the "unknown" category.
+```{r}
 dog_pivot <- dog_survey_human_age %>% 
   pivot_longer(cols = 2:3,
-               names_to = "dog_vs_human",
+               names_to = "dog_vs_human_years",
                values_to = "avg_age")
 
 
 dog_ages_plot <- ggplot(dog_pivot, 
        aes(x = dog_gender,
            y= avg_age,
-           fill= dog_vs_human)) + 
+           fill= dog_vs_human_years)) + 
   geom_bar(stat="identity", position=position_dodge()) +
-  ggtitle("average dog age by gender, in human and dog years") +
+  ggtitle("Average Dog Age by gender") +
   xlab("Gender") +
   ylab("Average Age") +
   geom_text(aes(label = avg_age), 
@@ -88,4 +117,3 @@ dog_ages_plot <- ggplot(dog_pivot,
             nudge_y = 1)
 dog_ages_plot
 ```
-
