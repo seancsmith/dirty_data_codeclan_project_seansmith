@@ -213,6 +213,3 @@ joy_prop_graph <- ggplot(bb_candy_joy_proportion,
   ylim(0, 1)
 joy_prop_graph
 ```
-
-
-- Using the `rating system` to calulate the `joy_vs_despair_rating` for each type of M&M we can see that the Mint M&Ms must have brought a lot of *despair* to lower their `joy_vs_despair_rating` to -88.

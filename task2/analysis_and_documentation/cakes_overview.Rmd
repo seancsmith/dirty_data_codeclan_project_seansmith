@@ -25,6 +25,10 @@ cake_codes <- read_csv(here("data/raw_data/cake_ingredient_code.csv"))
 
 The *raw data* came in the form of two .csv files. Table 1 (cake_ingredients_1961.csv)  contains all the different types of cake with all of the `ingredient codes` as column headers. This file was in __wide format__ and filled with **NA values**. Table 2 (cake_ingredient_code) contains a list of ingredients and their correspongding `ingredient code`, as well as a measure column. The only thing missing from this table was the `measure` value for "Sour cream cup".
 
+### Additional Data for Further Analysis
+
+It would be useful to have additional ingredient data for dietary requirements, such as gluten free, dairy free (see extra analysis), sugar free etc. This way I could easily calculate if each cake was suitable for people with dietary needs.
+
 ## Assumptions
 
 My first assumption was that I would have to change the format of Table 1 to __long format__. This would make it easier to see which ingredients were required for each cake. I could see there were many __NA values__ in this table and I was assuming that these ingredients were not required for the corresponding cake, as oppose to *missing information*. The brief states that the full ingredient name is required and not just the `ingredient code`. So I thought the best way to approach this is to **join** the tables using the `ingredient code`. 
