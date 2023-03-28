@@ -23,11 +23,8 @@ bb_candy_2015_rename_cols <- bb_candy_2015_age_str_remove %>%
          "going_trick_or_treating" = are_you_going_actually_going_trick_or_treating_yourself,
          "year" = timestamp
          )
-
-
+# Remove Inf ages
 bb_candy_2015_rename_cols$age[is.infinite(bb_candy_2015_rename_cols$age)] <- NA
-
-
 
 
 # Change timestamp value to year

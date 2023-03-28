@@ -5,7 +5,6 @@ library(janitor)
 
 # Read in the data
 dog_survey <- read_csv("data/raw_data/dog_survey.csv")
-view(dog_survey)
 
 # Remove empty columns
 dog_survey_select <- dog_survey %>% 

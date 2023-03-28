@@ -201,13 +201,13 @@ bb_candy_joy_proportion
 ```
 
 ```{r}
-
 x_labels <- c("Peanut", "Blue", "Green", "Red", "Mint")
 joy_prop_graph <- ggplot(bb_candy_joy_proportion, 
                          aes(x = x_labels, y = joy_prop)) +
   geom_bar(stat ="identity", 
            color = "black", 
-           fill = c("yellow", "blue", "green", "red", "light green")) + ggtitle("Proportion of M&M's which were rated 'joy'") + 
+           fill = c("yellow", "blue", "green", "red", "light green")) + 
+  ggtitle("Proportion of M&M's which were rated 'joy'") + 
   xlab("Type of M&M") + 
   ylab("Proportion") +
   ylim(0, 1)
