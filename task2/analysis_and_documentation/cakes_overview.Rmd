@@ -164,4 +164,3 @@ cake_dairy_free <- cakes_contains_dairy %>%
   filter(n_ingredients_containing_dairy == 0)
 cake_dairy_free
 ```
-

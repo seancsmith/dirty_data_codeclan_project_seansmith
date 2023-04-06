@@ -10,33 +10,27 @@ library(stringr)
 bb_candy_2015 <- read_xlsx(here("data/raw_data/boing-boing-candy-2015.xlsx"))
 
 # Clean names
-bb_candy_2015_clean_names <- bb_candy_2015 %>% 
-  clean_names()
-
-bb_candy_2015_age_str_remove <- bb_candy_2015_clean_names %>% 
-  mutate(how_old_are_you = str_remove(how_old_are_you, "\\..+"))
-
 # Rename columns
-bb_candy_2015_rename_cols <- bb_candy_2015_age_str_remove %>% 
+# Change timestamp value to year
+# Relocate Netto
+
+bb_candy_2015_new <- bb_candy_2015 %>% 
+  clean_names() %>% 
+  mutate(how_old_are_you = str_remove(how_old_are_you, "\\..+")) %>% 
   mutate(how_old_are_you = as.numeric(how_old_are_you)) %>% 
   rename("age" = how_old_are_you,
          "going_trick_or_treating" = are_you_going_actually_going_trick_or_treating_yourself,
          "year" = timestamp
-         )
-# Remove Inf ages
-bb_candy_2015_rename_cols$age[is.infinite(bb_candy_2015_rename_cols$age)] <- NA
-
-
-# Change timestamp value to year
-bb_candy_2015_date <- bb_candy_2015_rename_cols %>% 
-  mutate(year = 2015)
-
-# Relocate Netto
-bb_candy_2015_relocate_netto <- bb_candy_2015_date %>% 
+  ) %>% 
+  mutate(year = 2015) %>% 
   relocate(necco_wafers, .after = pixy_stix)
 
+# # Remove Inf ages
+bb_candy_2015_new$age[is.infinite(bb_candy_2015_new$age)] <- NA
+
+
 # Select columns and order
-bb_candy_2015_select <- bb_candy_2015_relocate_netto %>% 
+bb_candy_2015_select <- bb_candy_2015_new %>% 
   select(year, age, going_trick_or_treating, 
          butterfinger:york_peppermint_patties,
          -white_bread,
